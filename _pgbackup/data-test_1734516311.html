@@ -1,0 +1,146 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Student Results</title>         
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 250px;
+            background-color: #333;
+            height: 100%;
+            padding-top: 50px;
+            transition: left 1s ease-in-out;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .navbar.slide-in {
+            left: 0;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        .search-bar {
+            margin: 20px 0;
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>         
+    </head>     
+    <body> 
+        <button class="menu-toggle" onclick="toggleNavbar()">☰ Menu</button>         
+        <div class="navbar"> 
+            <div class="logo">Academics</div>             <a href="index.html">Home</a> <a href="Ourfaculty.html">About</a> <a href="features.html">Services</a> <a href="contact-us.html">Contact</a> 
+        </div>         
+        <div class="content"> 
+            <h1>Student Results</h1> 
+            <input type="text" class="search-bar" id="searchInput" placeholder="Search by Roll Number or Name..." onkeyup="filterResults()"> 
+            <table id="student-table"> 
+                <thead> 
+                    <tr> 
+                        <th>Roll Number</th> 
+                        <th>Name</th> 
+                        <th>Marks</th> 
+                    </tr>                     
+                </thead>                 
+                <tbody></tbody>                 
+            </table>             
+        </div>         
+        <script>
+    function toggleNavbar() {
+        const navbar = document.querySelector('.navbar');
+        const content = document.querySelector('.content');
+        
+        if (navbar.style.left === '0px') {
+            navbar.style.left = '-100%';
+            content.style.marginLeft = '0';
+        } else {
+            navbar.style.left = '0';
+            content.style.marginLeft = '250px';
+        }
+    }
+
+    function filterResults() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#student-table tbody tr');
+        
+        rows.forEach(row => {
+            const rollNumber = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+            const studentName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            
+            if (rollNumber.includes(searchInput) || studentName.includes(searchInput)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    window.addEventListener('load', function() {
+        const navbar = document.querySelector('.navbar');
+        navbar.classList.add('slide-in');
+
+        fetch('https://script.google.com/macros/s/AKfycbx6CFlEFzJEPwAvADUW3SUKEmwXZckDcCef-zdYk8yxCv7jcByX9iIn1rfH8obx0U9k/exec2')  // Replace with My Google Apps Script URL
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#student-table tbody');
+                data.forEach(student => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${student.rollNumber}</td><td>${student.name}</td><td>${student.marks}</td>`;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>         
+    </body>     
+</html>

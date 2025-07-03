@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Student Data</title>
+        <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+    </head>
+    <body>
+        <h2>Student Data</h2>
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>Roll Number</th>
+                    <th>Name</th>
+                    <th>Marks</th>
+                    <th>Photo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here -->
+            </tbody>
+        </table>
+        <script>
+    // Fetch student data from the Apps Script Web App
+    fetch('YOUR_WEB_APP_URL')  // Replace with your deployed Web App URL
+      .then(response => response.json())  // Parse JSON response
+      .then(data => {
+        // Get the table body element
+        const tableBody = document.querySelector('#studentTable tbody');
+        
+        // Loop through the fetched data and populate the table
+        data.forEach(student => {
+          const row = document.createElement('tr');
+          
+          // Create cells for each data field
+          const rollNumberCell = document.createElement('td');
+          rollNumberCell.textContent = student.rollNumber;
+          row.appendChild(rollNumberCell);
+          
+          const nameCell = document.createElement('td');
+          nameCell.textContent = student.name;
+          row.appendChild(nameCell);
+          
+          const marksCell = document.createElement('td');
+          marksCell.textContent = student.marks;
+          row.appendChild(marksCell);
+          
+          const photoCell = document.createElement('td');
+          const img = document.createElement('img');
+          img.src = student.photoUrl;
+          img.alt = student.name;
+          img.width = 50;  // Set an image size for display
+          img.height = 50;
+          photoCell.appendChild(img);
+          row.appendChild(photoCell);
+          
+          // Add the row to the table
+          tableBody.appendChild(row);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  </script>
+    </body>
+</html>

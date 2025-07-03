@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Results</title>
+        <style>body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; } .navbar { display: flex; justify-content: space-between; align-items: center; background-color: #333; color: white; padding: 10px 20px; } .navbar h1 { margin: 0; font-size: 20px; } .navbar input { padding: 5px; border: none; border-radius: 5px; width: 200px; } .sidebar { height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background-color: #444; color: white; display: flex; flex-direction: column; padding: 20px; } .sidebar a { color: white; text-decoration: none; padding: 10px 0; } .sidebar a:hover { background-color: #555; padding-left: 10px; } .content { margin-left: 250px; padding: 20px; } table { width: 100%; border-collapse: collapse; background-color: #fff; margin-top: 20px; } th, td { padding: 10px; border: 1px solid #ddd; text-align: center; } th { background-color: #f2f2f2; } img { width: 100px; height: 100px; border-radius: 50%; } /* Loading Popup Styles */.loading-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); justify-content: center; align-items: center; color: white; font-size: 20px; transition: opacity 0.3s ease-in-out; } .loading-popup.show { display: flex; opacity: 1; } .loading-popup .spinner { border: 4px solid rgba(255, 255, 255, 0.3); border-top: 4px solid white; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; } @keyframes spin { 0% {  transform: rotate(0deg); }  100% {  transform: rotate(360deg); } } /* Modal Styles */.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease-in-out; } .modal-content { background-color: white; padding: 20px; border-radius: 5px; max-width: 600px; width: 80%; transform: translateY(-50px); transition: transform 0.3s ease-out; } .modal.show { display: flex; opacity: 1; } .modal.show .modal-content { transform: translateY(0); } .modal-content h2 { margin-top: 0; } .close { background-color: red; color: white; border: none; padding: 10px; cursor: pointer; }</style>
+    </head>
+    <body>
+        <header>
+            <div class="navbar">
+                <h1>Student Results</h1>
+                <input type="text" id="search" placeholder="Search by Roll Number or Name">
+            </div>
+        </header>
+        <div class="sidebar"><a href="index.html">Home</a><a href="Ourfaculty.html">Our Faculty</a><a href="features.html">What We Teach</a>
+        </div>
+        <div class="content">
+            <table id="results-table">
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Marks</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <!-- Loading Popup -->
+        <div id="loading-popup" class="loading-popup">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+        <!-- Modal for Student Details -->
+        <div id="student-modal" class="modal">
+            <div class="modal-content">
+                <button class="close" id="close-modal">Close</button>
+                <h2 id="student-name"></h2>
+                <p><strong>Roll Number:</strong> <span id="student-rollnumber"></span></p>
+                <p><strong>Marks:</strong> <span id="student-marks"></span></p>
+                <p><strong>Academic Activities:</strong> <span id="student-activities"></span></p>
+                <p><strong>Assignments:</strong> <span id="student-assignments"></span></p>
+            </div>
+        </div>
+        <script>
+        // Show Loading Popup
+        const loadingPopup = document.getElementById('loading-popup');
+        const studentModal = document.getElementById('student-modal');
+        const closeModalButton = document.getElementById('close-modal');
+        const tableBody = document.querySelector('#results-table tbody');
+        const searchInput = document.getElementById('search');
+        
+        // Fetch data
+        fetch('https://script.google.com/macros/s/AKfycbz79HaP4nSi6mOOisYHwCB6EpQhntWR9FfNpElgNuHVI1gD5WNHQi3HobslIubtFtXM/exec')
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading popup
+                loadingPopup.classList.remove('show');
+                
+                function renderTable(filteredData) {
+                    tableBody.innerHTML = '';
+                    filteredData.forEach(student => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><img src="${student.photoUrl}" alt="Student Photo"></td>
+                            <td>${student.rollNumber}</td>
+                            <td>${student.name}</td>
+                            <td>${student.marks}</td>
+                            <td><button class="details-btn" data-rollnumber="${student.rollNumber}">View Details</button></td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                    
+                    // Add event listener for the details button
+                    const detailButtons = document.querySelectorAll('.details-btn');
+                    detailButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            const studentId = button.getAttribute('data-rollnumber');
+                            // Fetch student details
+                            fetch(`https://script.google.com/macros/s/AKfycbz79HaP4nSi6mOOisYHwCB6EpQhntWR9FfNpElgNuHVI1gD5WNHQi3HobslIubtFtXM/exec?studentId=${studentId}`)
+                                .then(response => response.json())
+                                .then(studentDetails => {
+                                    document.getElementById('student-name').textContent = studentDetails.name;
+                                    document.getElementById('student-rollnumber').textContent = studentDetails.rollNumber;
+                                    document.getElementById('student-marks').textContent = studentDetails.marks;
+                                    document.getElementById('student-activities').textContent = studentDetails.academicActivities;
+                                    document.getElementById('student-assignments').textContent = studentDetails.assignments;
+                                    studentModal.classList.add('show');
+                                })
+                                .catch(error => console.error('Error fetching student details:', error));
+                        });
+                    });
+                }
+
+                renderTable(data);
+
+                searchInput.addEventListener('input', () => {
+                    const query = searchInput.value.toLowerCase();
+                    const filteredData = data.filter(student =>
+                        student.rollNumber.toString().includes(query) ||
+                        student.name.toLowerCase().includes(query)
+                    );
+                    renderTable(filteredData);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+        // Close modal
+        closeModalButton.addEventListener('click', () => {
+            studentModal.classList.remove('show');
+        });
+
+        // Show loading popup while fetching data
+        loadingPopup.classList.add('show');
+    </script>
+    </body>
+</html>

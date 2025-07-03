@@ -1,0 +1,61 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Student Results</title>         
+        <style>body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; } h2 { text-align: center; color: #333; } table { width: 80%; margin: 0 auto; border-collapse: collapse; background-color: #fff; } th, td { padding: 12px; text-align: center; border: 1px solid #ddd; } th { background-color: #f2f2f2; color: #333; } img { width: 50px; height: 50px; border-radius: 50%; } table { margin-top: 20px; }</style>         
+    </head>     
+    <body> 
+        <h2>Student Results</h2> 
+        <table id="results-table"> 
+            <thead> 
+                <tr> 
+                    <th>Roll Number</th> 
+                    <th>Name</th> 
+                    <th>Marks</th> 
+                    <th>Photo</th> 
+                </tr>                 
+            </thead>             
+            <tbody> 
+                <!-- Data will be dynamically inserted here -->                 
+            </tbody>             
+        </table>         
+        <script>
+    // Fetch data from our Apps Script URL
+    fetch('https://script.google.com/macros/s/AKfycbz79HaP4nSi6mOOisYHwCB6EpQhntWR9FfNpElgNuHVI1gD5WNHQi3HobslIubtFtXM/exec')
+        .then(response => response.json())  // Parse the JSON response
+        .then(data => {
+            data.forEach(student => {
+                
+                let row = document.createElement('tr');
+
+                let rollNumberCell = document.createElement('td');
+                rollNumberCell.textContent = student.rollNumber;
+                row.appendChild(rollNumberCell);
+
+                // Name
+                let nameCell = document.createElement('td');
+                nameCell.textContent = student.name;
+                row.appendChild(nameCell);
+
+                // Marks
+                let marksCell = document.createElement('td');
+                marksCell.textContent = student.marks;
+                row.appendChild(marksCell);
+
+                // Photo
+                let photoCell = document.createElement('td');
+                let img = document.createElement('img');
+                img.src = student.photoUrl; // Assuming photoUrl is in the data
+                photoCell.appendChild(img);
+                row.appendChild(photoCell);
+
+                // Append row to the table
+                document.querySelector('#results-table tbody').appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error)); // Handle errors
+</script>         
+    </body>     
+</html>

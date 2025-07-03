@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Academic Portal</title>
+        <style>/* General styling */body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; } .container { width: 80%; max-width: 800px; padding: 20px; background-color: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border-radius: 10px; } h1 { text-align: center; margin-bottom: 20px; } select, button { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; background-color: #fff; } .hidden { display: none; } table { width: 100%; border-collapse: collapse; margin-top: 20px; } table th, table td { padding: 12px; text-align: left; border: 1px solid #ddd; } table th { background-color: #3498db; color: white; } table tr:nth-child(even) { background-color: #f2f2f2; }</style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Academic Portal</h1>
+            <!-- Role Selection -->
+            <div id="role-selection">
+                <button onclick="selectRole('teacher')">Teacher</button>
+                <button onclick="selectRole('student')">Student</button>
+            </div>
+            <!-- Class and Section Selection -->
+            <div id="class-section-selection" class="hidden">
+                <h2>Select Class and Section</h2>
+                <select id="class-select" onchange="fetchClassData()">
+                    <option value="">Select Class</option>
+                    <option value="9">Class 9</option>
+                    <option value="10">Class 10</option>
+                    <option value="11">Class 11</option>
+                    <option value="12">Class 12</option>
+                </select>
+                <select id="section-select" class="hidden" onchange="fetchClassData()">
+                    <option value="">Select Section</option>
+                    <option value="A">Section A</option>
+                    <option value="B">Section B</option>
+                    <option value="C">Section C</option>
+                </select>
+            </div>
+            <!-- Student List -->
+            <div id="student-list" class="hidden">
+                <h2>Select Student</h2>
+                <select id="student-select">
+                    <option value="">Select Student</option>
+                    <!-- Student options will go here -->
+                </select>
+                <button onclick="viewStudentData()">View Data</button>
+            </div>
+            <!-- Student Data (Attendance, Marks) -->
+            <div id="student-data" class="hidden">
+                <h2>Student Data</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marks-table">
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+                <div id="attendance">Attendance: </div>
+            </div>
+        </div>
+        <script>
+    let selectedRole = '';
+    let selectedClass = '';
+    let selectedSection = '';
+    let selectedStudent = '';
+
+    function selectRole(role) {
+      selectedRole = role;
+      document.getElementById('role-selection').classList.add('hidden');
+      document.getElementById('class-section-selection').classList.remove('hidden');
+    }
+
+    function fetchClassData() {
+      selectedClass = document.getElementById('class-select').value;
+      selectedSection = document.getElementById('section-select').value;
+
+      if (selectedClass && selectedSection) {
+        // Fetch student data (you'll need to adjust the fetch URL)
+        fetchhttps://script.google.com/macros/s/AKfycbxWlhsZrHjVGU6umbjvSYmaGKJDZreqQolzrwU64QI/exec?class=${selectedClass}&section=${selectedSection}`)
+          .then(response => response.json())
+          .then(data => {
+            const studentSelect = document.getElementById('student-select');
+            studentSelect.innerHTML = '<option value="">Select Student</option>';
+            data.forEach(student => {
+              const option = document.createElement('option');
+              option.value = student.uniqueID;
+              option.textContent = student.name;
+              studentSelect.appendChild(option);
+            });
+            document.getElementById('student-list').classList.remove('hidden');
+          });
+      }
+    }
+
+    function viewStudentData() {
+      selectedStudent = document.getElementById('student-select').value;
+
+      if (selectedStudent) {
+        // Fetch student data (attendance, marks)
+        fetch(`https://script.google.com/macros/s/AKfycbxDAJoUWzQhpYJpaB-7DlxboifT-23u-f77AZl8Sr8Q1Vy3lcWD1G_3CEHkZ_sv0Cs7/exec?uniqueID=${selectedStudent}`)
+          .then(response => response.json())
+          .then(data => {
+            const marksTable = document.getElementById('marks-table');
+            marksTable.innerHTML = ''; // Clear previous data
+            data.marks.forEach(mark => {
+              const row = marksTable.insertRow();
+              row.insertCell(0).textContent = mark.subject;
+              row.insertCell(1).textContent = mark.score;
+            });
+            document.getElementById('attendance').textContent = `Attendance: ${data.attendance}`;
+            document.getElementById('student-data').classList.remove('hidden');
+          });
+      }
+    }
+  </script>
+    </body>
+</html>

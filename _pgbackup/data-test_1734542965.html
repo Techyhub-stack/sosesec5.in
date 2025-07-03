@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Results</title>
+        <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background-color: #333; color: white; padding: 10px 20px; }
+        .navbar h1 { margin: 0; font-size: 20px; }
+        .navbar input { padding: 5px; border: none; border-radius: 5px; width: 200px; }
+        .sidebar { height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background-color: #444; color: white; display: flex; flex-direction: column; padding: 20px; }
+        .sidebar a { color: white; text-decoration: none; padding: 10px 0; }
+        .sidebar a:hover { background-color: #555; padding-left: 10px; }
+        .content { margin-left: 250px; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; background-color: #fff; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+        th { background-color: #f2f2f2; }
+        img { width: 100px; height: 100px; border-radius: 50%; }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; padding: 20px; border-radius: 5px; max-width: 500px; }
+        .modal-content h2 { margin-top: 0; }
+    </style>
+    </head>
+    <body>
+        <header>
+            <div class="navbar">
+                <h1>Student Results</h1>
+                <input type="text" id="search" placeholder="Search by Roll Number or Name">
+            </div>
+        </header>
+        <div class="sidebar"><a href="index.html">Home</a><a href="Ourfaculty.html">Our Faculty</a><a href="features.html">What We Teach</a>
+        </div>
+        <div class="content">
+            <table id="results-table">
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <!-- Modal for Student Details -->
+        <div id="student-modal" class="modal">
+            <div class="modal-content">
+                <h2 id="student-name"></h2>
+                <p id="student-marks"></p>
+                <p id="student-activities"></p>
+                <p id="student-assignments"></p>
+                <button onclick="closeModal()">Close</button>
+            </div>
+        </div>
+        <script>
+        fetch('https://script.google.com/macros/s/AKfycbwjuo8zxyRAiLuK5THM-d2hIs1RqT1J-dC-7-2FqSLjSj43AW_XpTg2o4pkqzPrB8RK/exec')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#results-table tbody');
+                const searchInput = document.getElementById('search');
+                const studentModal = document.getElementById('student-modal');
+                const studentName = document.getElementById('student-name');
+                const studentMarks = document.getElementById('student-marks');
+                const studentActivities = document.getElementById('student-activities');
+                const studentAssignments = document.getElementById('student-assignments');
+                
+                function renderTable(filteredData) {
+                    tableBody.innerHTML = '';
+                    filteredData.forEach(student => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><img src="${student.photoUrl}" alt="Student Photo"></td>
+                            <td>${student.rollNumber}</td>
+                            <td>${student.name}</td>
+                            <td>${student.marks}</td>
+                        `;
+                        row.onclick = () => {
+                            // Show the modal and fill it with student details
+                            studentName.textContent = student.name;
+                            studentMarks.textContent = `Marks: ${student.marks}`;
+                            studentActivities.textContent = `Academic Activities: ${student.academicActivities}`;
+                            studentAssignments.textContent = `Assignments: ${student.assignments}`;
+                            studentModal.style.display = 'flex';
+                        };
+                        tableBody.appendChild(row);
+                    });
+                }
+
+                renderTable(data);
+
+                searchInput.addEventListener('input', () => {
+                    const query = searchInput.value.toLowerCase();
+                    const filteredData = data.filter(student =>
+                        student.rollNumber.toString().includes(query) ||
+                        student.name.toLowerCase().includes(query)
+                    );
+                    renderTable(filteredData);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+        function closeModal() {
+            document.getElementById('student-modal').style.display = 'none';
+        }
+    </script>
+    </body>
+</html>
