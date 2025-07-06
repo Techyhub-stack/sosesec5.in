@@ -12,22 +12,21 @@
         <link rel="stylesheet" href="assets/css/iframe-youtube-mloureiro1973.css">
         <link rel="stylesheet" href="assets/css/main.css">
         <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
-        <style>
-    body {
-        animation: zoomInEffect 0.8s ease-in-out;
+        <style>body {
+    animation: zoomInEffect 0.8s ease-in-out;
+}
+
+@keyframes zoomInEffect {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
     }
 
-    @keyframes zoomInEffect {
-        0% {
-            transform: scale(0.8);
-            opacity: 0;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
-</style>
+}</style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg fixed-top bg-body clean-navbar">
@@ -61,26 +60,27 @@
             <section class="clean-block clean-form dark">
                 <div class="container">
                     <div class="block-heading">
-                        <h2 class="text-info">Contact Us</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+                        <h2 class="text-info">Login &amp; Registration</h2>
+                        <p><b>Login For The Students &amp; Faculty Member</b></p>
                     </div>
                     <!-- Contact Form -->
                     <form action="mailto:your-email@example.com" method="post" enctype="text/plain">
                         <div class="mb-3">
                             <label class="form-label" for="name">Name</label>
-                            <input class="form-control" type="text" id="name" name="name" data-bs-theme="light" required>
+                            <input class="form-control" type="text" id="name" name="name" data-bs-theme="light" required="">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="subject">Subject</label>
-                            <input class="form-control" type="text" id="subject" name="subject" data-bs-theme="light" required>
+                            <input class="form-control" type="text" id="subject" name="subject" data-bs-theme="light" required="">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email</label>
-                            <input class="form-control" type="email" id="email" name="email" data-bs-theme="light" required>
+                            <input class="form-control" type="email" id="email" name="email" data-bs-theme="light" required="">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="message">Message</label>
-                            <textarea class="form-control" id="message" name="message" data-bs-theme="light" required></textarea>
+                            <label class="form-label" for="message">
+                                <br>
+                            </label>
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-primary" type="submit">Send</button>
