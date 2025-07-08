@@ -80,10 +80,33 @@ body.loaded {
     </head>
     <body>
         <script>
+
         document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.add("loaded");
+            const loginForm = document.getElementById('loginForm');
+            const loginButton = document.getElementById('loginButton');
+            const creds = [
+                {username: 'admin', password: 'password', email: 'user@example.com'},
+                {username: 'user', password: '12345', email: 'user@example.com'}
+            ];
+            if (loginForm) {
+                loginForm.addEventListener('submit', e => {
+                    e.preventDefault();
+                    const usernameInput = document.getElementById('username').value.trim();
+                    const passwordInput = document.getElementById('password').value;
+                    const user = creds.find(item =>
+                        (item.email === usernameInput || item.username === usernameInput) && item.password === passwordInput
+                    );
+                    if (user) {
+                        window.location.href = 'data-test.html';
+                        localStorage.setItem('loggedIn', JSON.stringify(user))
+                    } else {
+                        alert('Invalid username/email or password.');
+                    }
+                });
+            }
         });
-    </script>
+        </script>
         <nav class="navbar navbar-expand-lg navbar-light bg-body fixed-top shadow-sm clean-navbar transition">
             <div class="container-fluid px-4">
                 <a class="navbar-brand d-flex align-items-center" href="index.html">
@@ -124,63 +147,13 @@ body.loaded {
                 </div>
             </div>
         </nav>
-        <main class="page">
-            <div class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" id="carousel-2">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block img-fluid w-100" src="assets/img/random/school_front.jpg" alt="Slide Image">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid w-100" src="assets/img/random/vigilence.jpg" alt="Slide Image">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid w-100" src="assets/img/random/annual_zonal.jpg" alt="Slide Image">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid w-100" src="assets/img/random/deliote.jpg" alt="Slide Image">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid w-100" src="assets/img/random/lab.jpg" alt="Slide Image">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carousel-2" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></a>
-                <a class="carousel-control-next" href="#carousel-2" role="button" data-bs-slide="next"><span class="carousel-control-next-icon"></span></a>
-            </div>
-            <section class="py-5 bg-light">
-                <div class="container">
-                    <div class="row justify-content-center g-4">
-                        <!-- Card 1 -->
-                        <div class="col-md-6">
-                            <div class="card shadow-lg border-0 rounded-4 p-4 h-100">
-                                <h4 class="mb-3 text-primary fw-semibold">Explore Our Vision</h4>
-                                <p>DBRA SOSE SEC-5 DWARKA aims to develop open-minded, empathetic, dynamic, and confident learners possessing skills like critical thinking, decision-making, multilingualism, interpersonal communication, and leadership.</p>
-                                <a href="Ourfaculty.html" class="btn btn-outline-primary mt-3">Learn More</a>
-                            </div>
-                        </div>
-                        <!-- Card 2 -->
-                        <div class="col-md-6">
-                            <div class="card shadow-lg border-0 rounded-4 p-4 h-100">
-                                <h4 class="mb-3 text-success fw-semibold">Join Our Mission</h4>
-                                <p>DBRA SOSE SEC-5 DWARKA strives to nurture young minds equipped with 21st-century skills and a future-forward mindset to solve environmental, social, cultural, emotional, and economic issues nationally and internationally.</p>
-                                <a href="https://www.education.delhi.gov.in/sose/admission/Home.aspx" class="btn btn-outline-success mt-3">Join Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <main class="page d-flex align-items-center justify-content-center" style="width: 100%; height: 100vh;">
+            <form action='' id="loginForm" class="login-form d-flex flex-column align-items-center justify-content-between" style=" margin: auto; padding: 20px; background-color: #f8f9fa; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
+                <input type="text" id="username" placeholder="UserID or Email" required class="mb-3" style="padding: 10px; width: 50vw; border: 1px solid #ced4da; border-radius: 5px;">
+                <input type="password" id="password" placeholder="Password" required class="mb-3" style="padding: 10px; border: 1px solid #ced4da; width: 50vw; border-radius: 5px;">
+                <button type="submit" id="loginButton" style="width: 100%; border: none; padding-top: 10px; padding-bottom: 10px; border-radius: 10px; background-color: bisque;">Login</button>
+            </form>
         </main>
-        <section class="container my-5">
-            <div class="row align-items-center">
-                <div class="col-md-4 text-center">
-                    <img src="assets/img/sample-frame.jpg" alt="Profile Frame" class="img-fluid rounded-circle shadow" style="width: 250px; height: 250px; object-fit: cover;">
-                </div>
-                <div class="col-md-8">
-                    <h3 class="text-info">Principal's Message</h3>
-                    <p>
-        This is the main text beside the circular frame. You can write anything here about the person, concept, or section this image represents. Make sure this text provides enough detail and is engaging for readers. </p>
-                </div>
-            </div>
-        </section>
         <footer class="dark page-footer">
             <div class="container">
                 <div class="row">
