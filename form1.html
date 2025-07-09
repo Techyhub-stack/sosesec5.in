@@ -146,8 +146,10 @@
             </table>
         </div>
         <script>
+    
+    const roleElem = document.getElementById('role')
     // Role Selection
-    document.getElementById('role').addEventListener('change', function () {
+    roleElem.addEventListener('change', function () {
       const role = this.value;
       if (role === 'student') {
         document.getElementById('student-form').style.display = 'block';
@@ -157,6 +159,16 @@
         document.getElementById('student-data').style.display = 'none';
       }
     });
+    
+    const role = roleElem.value;
+      if (role === 'student') {
+        document.getElementById('student-form').style.display = 'block';
+        document.getElementById('student-data').style.display = 'none';
+      } else {
+        document.getElementById('student-form').style.display = 'none';
+        document.getElementById('student-data').style.display = 'none';
+      }
+
 
     // Fetch Student Data
     document.getElementById('fetch-student-data').addEventListener('click', function () {
@@ -164,7 +176,7 @@
       const section = document.getElementById('section').value;
 
       // API URL with parameters
-      const apiUrl = `https://script.google.com/macros/s/AKfycbxWlhsZrHjVGU6umbjvSYmaGKJDZreqQolzrwU64QI/exec?class=${classValue}&section=${section}`;
+      const apiUrl = `https://script.google.com/macros/s/AKfycbz6QHx65XSFnLsuR1yYwtaB-xvGzLrOGE5YFwvI0kmIcZMK0h2vSegfOczbxEsOyIUQ/exec?class=${classValue}&section=${section}`;
 
       // Fetch data from Apps Script
       fetch(apiUrl)
