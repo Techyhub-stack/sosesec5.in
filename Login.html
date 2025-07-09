@@ -99,7 +99,7 @@ body.loaded {
                     );
                     if (user) {
                         window.location.href = 'data-test.html';
-                        localStorage.setItem('loggedIn', JSON.stringify(user))
+                        sessionStorage.setItem('loggedIn', JSON.stringify(user))
                     } else {
                         alert('Invalid username/email or password.');
                     }

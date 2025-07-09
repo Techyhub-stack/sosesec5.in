@@ -99,11 +99,47 @@
     tbody tr:hover {
       background-color: #f9f9f9;
     }
+
+    /* Loading Overlay */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.4);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .loading-overlay.show {
+      display: flex;
+    }
+    .loading-spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #4a90e2;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 18px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
     </head>
     <body>
         <h1>Academics Page</h1>
         <div class="container">
+            <!-- Loading Overlay -->
+            <div id="loading-overlay" class="loading-overlay">
+                <div class="loading-spinner"></div>
+                <div style="color: #fff; font-size: 1.2rem; font-weight: bold;">Loading...</div>
+            </div>
             <!-- Role Selection -->
             <div class="form-section">
                 <label for="role">Are you a:</label>
@@ -175,13 +211,17 @@
       const classValue = document.getElementById('class').value;
       const section = document.getElementById('section').value;
 
+      // Show loading overlay
+      const loadingOverlay = document.getElementById('loading-overlay');
+      loadingOverlay.classList.add('show');
+
       // API URL with parameters
       const apiUrl = `https://script.google.com/macros/s/AKfycbz6QHx65XSFnLsuR1yYwtaB-xvGzLrOGE5YFwvI0kmIcZMK0h2vSegfOczbxEsOyIUQ/exec?class=${classValue}&section=${section}`;
-
-      // Fetch data from Apps Script
+      
       fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
+          loadingOverlay.classList.remove('show');
           if (data.error) {
             alert(data.error);
           } else {
@@ -210,6 +250,7 @@
           }
         })
         .catch(error => {
+          loadingOverlay.classList.remove('show');
           console.error('Error fetching data:', error);
           alert('An error occurred while fetching data.');
         });
