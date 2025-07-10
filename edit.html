@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Edit Student Marks</title>
+        <style>body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    padding: 30px;
+}
+
+h1 {
+    text-align: center;
+    color: #4a90e2;
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #357ab8;
+}
+
+.success {
+    margin-top: 15px;
+    color: green;
+    text-align: center;
+}
+
+.error {
+    margin-top: 15px;
+    color: red;
+    text-align: center;
+}</style>
+    </head>
+    <body>
+        <h1>Edit Student Marks</h1>
+        <div class="form-container">
+            <label for="class">Class</label>
+            <select id="class">
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+            <label for="section">Section</label>
+            <select id="section">
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+            <label for="roll">Roll Number</label>
+            <input type="number" id="roll" required/>
+            <label for="subject">Subject</label>
+            <select id="subject">
+                <option value="maths">Mathematics</option>
+                <option value="science">Science</option>
+                <option value="english">English</option>
+                <option value="hindi">Hindi</option>
+                <option value="individual_societies">Individual & Societies</option>
+            </select>
+            <label for="marks">Marks</label>
+            <input type="number" id="marks" min="0" max="100" required/>
+            <button onclick="submitForm()">Submit</button>
+            <div id="response" class=""></div>
+        </div>
+        <script>
+    const WEB_APP_URL = "YOUR_DEPLOYED_SCRIPT_URL_HERE"; // Replace with your actual Apps Script URL
+
+    function submitForm() {
+      const role = sessionStorage.getItem("role");
+      if (role !== "teacher") {
+        alert("Access denied. Only teachers can edit data.");
+        return;
+      }
+
+      const classVal = document.getElementById("class").value;
+      const section = document.getElementById("section").value;
+      const roll = document.getElementById("roll").value;
+      const subject = document.getElementById("subject").value;
+      const marks = document.getElementById("marks").value;
+      const responseDiv = document.getElementById("response");
+
+      fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          role: "teacher",
+          class: classVal,
+          section: section,
+          rollNumber: roll,
+          subject: subject,
+          marks: marks
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          responseDiv.innerText = "Marks updated successfully!";
+          responseDiv.className = "success";
+        } else {
+          responseDiv.innerText = data.error || "Update failed.";
+          responseDiv.className = "error";
+        }
+      })
+      .catch(err => {
+        responseDiv.innerText = "Error connecting to server.";
+        responseDiv.className = "error";
+      });
+    }
+  </script>
+    </body>
+</html>

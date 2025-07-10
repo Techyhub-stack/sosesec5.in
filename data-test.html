@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="icon" href="assets/img/logo.png" type="image/x-icon">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Student Results</title>
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+        <link rel="icon" href="assets/img/logo.png" type="image/x-icon"> 
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Student Results</title>         
         <style>
             body {
                 font-family: 'Segoe UI', Arial, sans-serif;
@@ -285,58 +285,59 @@
                     height: 48px;
                 }
             }
-        </style>
-    </head>
-    <body>
-        <header>
-            <div class="navbar">
-                <h1>Student Results</h1>
-                <input type="text" id="search" placeholder="Search by Roll Number or Name">
-            </div>
-        </header>
-        <div class="sidebar">
-            <div>
-                <a href="index.html">Home</a>
-                <a href="Ourfaculty.html">Our Faculty</a>
+        </style>         
+    </head>     
+    <body> 
+        <header> 
+            <div class="navbar"> 
+                <h1>Student Results</h1> 
+                <input type="text" id="search" placeholder="Search by Roll Number or Name"> 
+            </div>             
+        </header>         
+        <div class="sidebar"> 
+            <div> 
+                <a href="index.html">Home</a> 
+                <a href="Ourfaculty.html">Our Faculty</a> 
                 <a href="features.html">What We Teach</a>
-            </div>
-            <a href="#" class="logout-btn" id="logout" style="padding: 10px 20px;">Log Out</a>
-        </div>
-        <div class="content">
-            <table id="results-table" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th>Photo</th>
-                        <th>Roll Number</th>
-                        <th>Name</th>
-                        <th>Marks</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        <!-- Loading Popup -->
-        <div id="loading-popup" class="loading-popup">
-            <div class="spinner"></div>
-            <p>Loading...</p>
-        </div>
-        <!-- Modal for Student Details -->
-        <div id="student-modal" class="modal">
-            <div class="modal-content">
-                <button class="close" id="close-modal">Close</button>
-                <h2 id="student-name"></h2>
-                <p><strong>Roll Number:</strong> <span id="student-rollnumber"></span></p>
-                <p><strong>Marks:</strong> <span id="student-marks"></span></p>
-                <p><strong>Academic Activities:</strong> <span id="student-activities"></span></p>
-                <p><strong>Assignments:</strong> <span id="student-assignments"></span></p>
-                <!-- Loading Spinner inside Modal -->
-                <div id="modal-loading" class="loading-popup">
-                    <div class="spinner"></div>
-                    <p>Loading Details...</p>
-                </div>
-            </div>
-        </div>
+                <a href="edit.html">Edit</a> 
+            </div>             
+            <a href="#" class="logout-btn" id="logout" style="padding: 10px 20px;">Log Out</a> 
+        </div>         
+        <div class="content"> 
+            <table id="results-table" style="width: 100%;"> 
+                <thead> 
+                    <tr> 
+                        <th>Photo</th> 
+                        <th>Roll Number</th> 
+                        <th>Name</th> 
+                        <th>Marks</th> 
+                        <th>Details</th> 
+                    </tr>                     
+                </thead>                 
+                <tbody></tbody>                 
+            </table>             
+        </div>         
+        <!-- Loading Popup -->         
+        <div id="loading-popup" class="loading-popup"> 
+            <div class="spinner"></div>             
+            <p>Loading...</p> 
+        </div>         
+        <!-- Modal for Student Details -->         
+        <div id="student-modal" class="modal"> 
+            <div class="modal-content"> 
+                <button class="close" id="close-modal">Close</button>                 
+                <h2 id="student-name"></h2> 
+                <p><strong>Roll Number:</strong> <span id="student-rollnumber"></span></p> 
+                <p><strong>Marks:</strong> <span id="student-marks"></span></p> 
+                <p><strong>Academic Activities:</strong> <span id="student-activities"></span></p> 
+                <p><strong>Assignments:</strong> <span id="student-assignments"></span></p> 
+                <!-- Loading Spinner inside Modal -->                 
+                <div id="modal-loading" class="loading-popup"> 
+                    <div class="spinner"></div>                     
+                    <p>Loading Details...</p> 
+                </div>                 
+            </div>             
+        </div>         
         <script>
         // Show Loading Popup
 
@@ -429,6 +430,6 @@
 
         // Show loading popup while fetching data
         loadingPopup.classList.add('show');
-    </script>
-    </body>
+    </script>         
+    </body>     
 </html>
