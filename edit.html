@@ -103,8 +103,8 @@ button:hover {
     const WEB_APP_URL = "YOUR_DEPLOYED_SCRIPT_URL_HERE"; // Replace with your actual Apps Script URL
 
     function submitForm() {
-      const role = sessionStorage.getItem("role");
-      if (role !== "teacher") {
+      const user = sessionStorage.getItem('loggedIn')
+      if (JSON.parse(user).role !== "teacher") {
         alert("Access denied. Only teachers can edit data.");
         return;
       }
