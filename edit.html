@@ -2,240 +2,197 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Edit Student Marks</title>
+        <title>Edit Student Data</title>
         <link rel="icon" href="assets/img/logo.png" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
         <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f7;
+      background: #f4f6f8;
       margin: 0;
-      padding: 0;
+      padding: 20px;
+      transition: background 0.4s ease;
     }
-    .container {
-      max-width: 650px;
-      margin: 40px auto;
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
+
     h2 {
       text-align: center;
-      color: #0077cc;
-      margin-bottom: 25px;
+      color: #2b5876;
+      margin-bottom: 24px;
     }
-    label {
-      font-weight: 600;
-      margin-top: 10px;
-      display: block;
-    }
-    select, input[type="text"], input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0 20px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #0077cc;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #005fa3;
-    }
-    #editSection {
-      display: none;
-      background-color: #f9f9f9;
+
+    .form-section {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
       border-radius: 12px;
-      padding: 20px;
-      border: 1px solid #ddd;
-      margin-top: 30px;
+      padding: 28px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      animation: fadeInUp 0.6s ease-out;
     }
-    .subjectRow {
-      margin-bottom: 12px;
-      padding: 10px;
-      border: 1px dashed #ccc;
-      border-radius: 8px;
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    #status, #addStatus {
-      text-align: center;
-      font-weight: bold;
-      margin-top: 15px;
+
+    label {
+      font-weight: 500;
+      margin-top: 10px;
+    }
+
+    select, input, button {
+      margin-bottom: 16px;
+    }
+
+    #photoPreview {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 10px auto;
+      display: block;
+      border: 2px solid #ccc;
+    }
+
+    .subject-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .subject-input input {
+      flex: 1;
+    }
+
+    .btn-primary {
+      background: #2b5876;
+      border: none;
+    }
+
+    .btn-danger {
+      margin-top: 10px;
     }
   </style>
     </head>
     <body>
-        <div class="container">
-            <h2>Search & Edit Student Marks</h2>
-            <form id="searchForm">
-                <label>Select Class:</label>
-                <select name="sheet" required>
-                    <option value="">--Select Class--</option>
-                    <option value="Class_10_A">Class 10 A</option>
-                    <option value="Class_10_B">Class 10 B</option>
-                    <option value="Class_11_A">Class 11 A</option>
-                    <option value="Class_11_B">Class 11 B</option>
-                    <option value="Class_12_A">Class 12 A</option>
-                    <option value="Class_12_B">Class 12 B</option>
-                </select>
-                <label>Roll No:</label>
-                <input type="text" name="rollNo" required placeholder="Enter Roll Number">
-                <button type="submit">Search</button>
-            </form>
-            <div id="editSection"></div>
-            <p id="status"></p>
-            <hr style="margin: 40px 0;">
-            <h2>Add New Student</h2>
-            <form id="addStudentForm">
-                <label>Select Class:</label>
-                <select name="sheet" id="addClassSelect" required>
-                    <option value="">--Select Class--</option>
-                    <option value="Class_10_A">Class 10 A</option>
-                    <option value="Class_10_B">Class 10 B</option>
-                    <option value="Class_11_A">Class 11 A</option>
-                    <option value="Class_11_B">Class 11 B</option>
-                    <option value="Class_12_A">Class 12 A</option>
-                    <option value="Class_12_B">Class 12 B</option>
-                </select>
-                <label>Roll No:</label>
-                <input type="text" id="newRoll" required>
-                <label>Name:</label>
-                <input type="text" id="newName" required>
-                <div id="subjectsContainer">
-                    <div class="subjectRow">
-                        <label>Subject:</label>
-                        <input type="text" class="subjectInput" required>
-                        <label>Marks:</label>
-                        <input type="number" class="marksInput" required>
-                    </div>
-                </div>
-                <button type="button" onclick="addSubjectRow()">+ Add Another Subject</button>
-                <br>
-                <br>
-                <button type="submit">Add Student</button>
-            </form>
-            <p id="addStatus"></p>
+        <h2>Edit Student Record</h2>
+        <div class="form-section">
+            <label for="classSelect">Select Class</label>
+            <select id="classSelect" class="form-select">
+                <option value="">-- Select Class --</option>
+                <option value="10-A">10-A</option>
+                <option value="10-B">10-B</option>
+                <option value="10-C">10-C</option>
+                <option value="10-D">10-D</option>
+                <option value="11-A">11-A</option>
+                <option value="11-B">11-B</option>
+                <option value="11-C">11-C</option>
+                <option value="11-D">11-D</option>
+                <option value="12-A">12-A</option>
+                <option value="12-B">12-B</option>
+                <option value="12-C">12-C</option>
+                <option value="12-D">12-D</option>
+            </select>
+            <label for="rollSelect">Select Roll Number</label>
+            <select id="rollSelect" class="form-select">
+                <option value="">-- Select Roll Number --</option>
+            </select>
+            <label for="nameInput">Student Name</label>
+            <input type="text" id="nameInput" class="form-control" placeholder="Enter Student Name">
+            <img id="photoPreview" src="assets/img/default.png" alt="Photo Preview">
+            <label for="photoInput">Upload Photo</label>
+            <input type="file" id="photoInput" class="form-control" accept="image/jpeg, image/png">
+            <div id="subjectMarks"></div>
+            <button class="btn btn-secondary w-100" onclick="addSubject()">Add Subject</button>
+            <button class="btn btn-primary w-100" onclick="saveStudent()">Save</button>
+            <button class="btn btn-danger w-100" onclick="deleteStudent()">Delete Student</button>
         </div>
         <script>
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzKgR7UJUNFmNoj3GbFHUhO0qxJb858aNPp84zo184od3bTSHk1epkvM2exk-yaKlrHZw/exec'; // Replace with your actual URL
+    const API_URL = "https://script.google.com/macros/s/AKfycbwvNbUGSrGURhInrK6trFfVUHDSqsX-0ML-5NzUxlbEOl22V-v4H_8kIbAs39lxfo4w6w/exec";
 
-let currentClass = "", currentRoll = "", currentName = "";
+    const classSelect = document.getElementById('classSelect');
+    const rollSelect = document.getElementById('rollSelect');
+    const nameInput = document.getElementById('nameInput');
+    const photoInput = document.getElementById('photoInput');
+    const photoPreview = document.getElementById('photoPreview');
+    const subjectMarksDiv = document.getElementById('subjectMarks');
 
-document.getElementById("searchForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const formData = new FormData(this);
-  currentClass = formData.get("sheet");
-  currentRoll = formData.get("rollNo");
-  const url = `${scriptURL}?sheet=${currentClass}&rollNo=${currentRoll}`;
-
-  fetch(url)
-    .then(res => res.json())
-    .then(records => {
-      const editSection = document.getElementById("editSection");
-      const status = document.getElementById("status");
-
-      if (records.length > 0) {
-        currentName = records[0].name;
-        editSection.innerHTML = `<h3>Student: ${currentName} (Roll No: ${currentRoll})</h3><hr>`;
-
-        records.forEach((rec, index) => {
-          editSection.innerHTML += `
-            <div class="subjectRow" id="subjRow-${rec.subject}">
-              <strong>${rec.subject}</strong>:
-              <input type="number" id="marks-${index}" value="${rec.marks}" style="width:80px;">
-              <button onclick="updateMarks('${rec.rowIndex}', document.getElementById('marks-${index}').value)">Update</button>
-              <button onclick="deleteSubject('${rec.subject}')">🗑️ Delete</button>
-            </div>`;
+    classSelect.addEventListener('change', () => {
+      fetch(`${API_URL}?action=getRolls&class=${classSelect.value}`)
+        .then(res => res.json())
+        .then(data => {
+          rollSelect.innerHTML = `<option value="">-- Select Roll Number --</option>`;
+          data.forEach(roll => {
+            rollSelect.innerHTML += `<option value="${roll}">${roll}</option>`;
+          });
         });
+    });
 
-        editSection.innerHTML += `
-          <hr>
-          <h4>Add New Subject</h4>
-          <label>Subject:</label>
-          <input type="text" id="newSubjInput" placeholder="e.g., English">
-          <label>Marks:</label>
-          <input type="number" id="newSubjMarks" placeholder="e.g., 85">
-          <button onclick="addNewSubject()">➕ Add Subject</button>
-          <p id="addSubjStatus"></p>`;
+    rollSelect.addEventListener('change', () => {
+      if (!classSelect.value || !rollSelect.value) return;
+      fetch(`${API_URL}?action=getStudent&class=${classSelect.value}&rollNo=${rollSelect.value}`)
+        .then(res => res.json())
+        .then(student => {
+          nameInput.value = student.name || '';
+          photoPreview.src = student.photoUrl || 'assets/img/default.png';
+          subjectMarksDiv.innerHTML = '';
+          (student.subjects || []).forEach(sub => {
+            subjectMarksDiv.innerHTML += `
+              <div class="subject-input">
+                <input type="text" value="${sub.subject}" placeholder="Subject" class="form-control subject">
+                <input type="number" value="${sub.marks}" placeholder="Marks" class="form-control marks">
+              </div>
+            `;
+          });
+        });
+    });
 
-        editSection.style.display = "block";
-        status.innerText = "";
-      } else {
-        editSection.style.display = "none";
-        status.innerText = "⚠️ Record Not Found.";
+    function addSubject() {
+      subjectMarksDiv.innerHTML += `
+        <div class="subject-input">
+          <input type="text" placeholder="Subject" class="form-control subject">
+          <input type="number" placeholder="Marks" class="form-control marks">
+        </div>
+      `;
+    }
+
+    function saveStudent() {
+      const classVal = classSelect.value;
+      const rollNo = rollSelect.value;
+      const name = nameInput.value.trim();
+      const subjects = Array.from(document.querySelectorAll('.subject-input')).map(row => ({
+        subject: row.querySelector('.subject').value.trim(),
+        marks: row.querySelector('.marks').value.trim()
+      })).filter(s => s.subject && s.marks);
+
+      const formData = new FormData();
+      formData.append('action', 'update');
+      formData.append('class', classVal);
+      formData.append('rollNo', rollNo);
+      formData.append('name', name);
+      formData.append('subjects', JSON.stringify(subjects));
+      if (photoInput.files[0]) {
+        formData.append('photo', photoInput.files[0]);
       }
-    })
-    .catch(err => {
-      document.getElementById("editSection").style.display = "none";
-      document.getElementById("status").innerText = "❌ Error: " + err.message;
-    });
-});
 
-function updateMarks(rowIndex, newMarks) {
-  const params = new URLSearchParams();
-  params.append("sheet", currentClass);
-  params.append("rowIndex", rowIndex);
-  params.append("marks", newMarks);
+      fetch(API_URL, { method: 'POST', body: formData })
+        .then(res => res.text())
+        .then(alert);
+    }
 
-  fetch(scriptURL, {
-    method: "POST",
-    body: params
-  })
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("status").innerText = data;
-    });
-}
-
-function deleteSubject(subjectName) {
-  if (!confirm(`Are you sure you want to delete subject "${subjectName}" for Roll No ${currentRoll}?`)) return;
-
-  const url = `${scriptURL}?sheet=${currentClass}&rollNo=${currentRoll}&subject=${subjectName}`;
-
-  fetch(url, {
-    method: "GET"
-  })
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("status").innerText = data;
-      const row = document.getElementById(`subjRow-${subjectName}`);
-      if (row) row.remove();
-    });
-}
-
-function addNewSubject() {
-  const subject = document.getElementById("newSubjInput").value.trim();
-  const marks = document.getElementById("newSubjMarks").value.trim();
-
-  if (!subject || !marks) {
-    document.getElementById("addSubjStatus").innerText = "❗ Please enter both subject and marks.";
-    return;
-  }
-
-  const params = new URLSearchParams();
-  params.append("sheet", currentClass);
-  params.append("rollNo", currentRoll);
-  params.append("name", currentName);
-  params.append("subjects", JSON.stringify([{ subject, marks }]));
-
-  fetch(scriptURL, {
-    method: "POST",
-    body: params
-  })
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("addSubjStatus").innerText = data;
-    });
-}
-</script>
+    function deleteStudent() {
+      if (!confirm("Are you sure to delete this student?")) return;
+      fetch(`${API_URL}?action=delete&class=${classSelect.value}&rollNo=${rollSelect.value}`)
+        .then(res => res.text())
+        .then(alert);
+    }
+  </script>
     </body>
 </html>
