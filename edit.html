@@ -1,148 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta charset="UTF-8">
         <title>Edit Student Marks</title>
-        <style>body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    padding: 30px;
-}
-
-h1 {
-    text-align: center;
-    color: #4a90e2;
-}
-
-.form-container {
-    max-width: 500px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-label {
-    display: block;
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-input,
-select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 12px;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #357ab8;
-}
-
-.success {
-    margin-top: 15px;
-    color: green;
-    text-align: center;
-}
-
-.error {
-    margin-top: 15px;
-    color: red;
-    text-align: center;
-}</style>
+        <link rel="icon" href="assets/img/logo.png" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f7;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 650px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #0077cc;
+      margin-bottom: 25px;
+    }
+    label {
+      font-weight: 600;
+      margin-top: 10px;
+      display: block;
+    }
+    select, input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 20px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0077cc;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    #editSection {
+      display: none;
+      background-color: #f9f9f9;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      margin-top: 30px;
+    }
+    .subjectRow {
+      margin-bottom: 12px;
+      padding: 10px;
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+    }
+    #status, #addStatus {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
     </head>
     <body>
-        <h1>Edit Student Marks</h1>
-        <div class="form-container">
-            <label for="class">Class</label>
-            <select id="class">
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-            </select>
-            <label for="section">Section</label>
-            <select id="section">
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-            </select>
-            <label for="roll">Roll Number</label>
-            <input type="number" id="roll" required/>
-            <label for="subject">Subject</label>
-            <select id="subject">
-                <option value="maths">Mathematics</option>
-                <option value="science">Science</option>
-                <option value="english">English</option>
-                <option value="hindi">Hindi</option>
-                <option value="individual_societies">Individual & Societies</option>
-            </select>
-            <label for="marks">Marks</label>
-            <input type="number" id="marks" min="0" max="100" required/>
-            <button onclick="submitForm()">Submit</button>
-            <div id="response" class=""></div>
+        <div class="container">
+            <h2>Search & Edit Student Marks</h2>
+            <form id="searchForm">
+                <label>Select Class:</label>
+                <select name="sheet" required>
+                    <option value="">--Select Class--</option>
+                    <option value="Class_10_A">Class 10 A</option>
+                    <option value="Class_10_B">Class 10 B</option>
+                    <option value="Class_11_A">Class 11 A</option>
+                    <option value="Class_11_B">Class 11 B</option>
+                    <option value="Class_12_A">Class 12 A</option>
+                    <option value="Class_12_B">Class 12 B</option>
+                </select>
+                <label>Roll No:</label>
+                <input type="text" name="rollNo" required placeholder="Enter Roll Number">
+                <button type="submit">Search</button>
+            </form>
+            <div id="editSection"></div>
+            <p id="status"></p>
+            <hr style="margin: 40px 0;">
+            <h2>Add New Student</h2>
+            <form id="addStudentForm">
+                <label>Select Class:</label>
+                <select name="sheet" id="addClassSelect" required>
+                    <option value="">--Select Class--</option>
+                    <option value="Class_10_A">Class 10 A</option>
+                    <option value="Class_10_B">Class 10 B</option>
+                    <option value="Class_11_A">Class 11 A</option>
+                    <option value="Class_11_B">Class 11 B</option>
+                    <option value="Class_12_A">Class 12 A</option>
+                    <option value="Class_12_B">Class 12 B</option>
+                </select>
+                <label>Roll No:</label>
+                <input type="text" id="newRoll" required>
+                <label>Name:</label>
+                <input type="text" id="newName" required>
+                <div id="subjectsContainer">
+                    <div class="subjectRow">
+                        <label>Subject:</label>
+                        <input type="text" class="subjectInput" required>
+                        <label>Marks:</label>
+                        <input type="number" class="marksInput" required>
+                    </div>
+                </div>
+                <button type="button" onclick="addSubjectRow()">+ Add Another Subject</button>
+                <br>
+                <br>
+                <button type="submit">Add Student</button>
+            </form>
+            <p id="addStatus"></p>
         </div>
         <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwEv63KXVudeNxSPnSagyKO4ZdlCYuOkCFzwk4zvimNMfap62G6Zswf6yRPVCF7Z5_eyQ/exec"; // Replace with your actual Apps Script URL
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzKgR7UJUNFmNoj3GbFHUhO0qxJb858aNPp84zo184od3bTSHk1epkvM2exk-yaKlrHZw/exec'; // Replace with your actual URL
 
-    function submitForm() {
-      const user = sessionStorage.getItem('loggedIn')
-      if (JSON.parse(user).role !== "teacher") {
-        alert("Access denied. Only teachers can edit data.");
-        return;
+let currentClass = "", currentRoll = "", currentName = "";
+
+document.getElementById("searchForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  currentClass = formData.get("sheet");
+  currentRoll = formData.get("rollNo");
+  const url = `${scriptURL}?sheet=${currentClass}&rollNo=${currentRoll}`;
+
+  fetch(url)
+    .then(res => res.json())
+    .then(records => {
+      const editSection = document.getElementById("editSection");
+      const status = document.getElementById("status");
+
+      if (records.length > 0) {
+        currentName = records[0].name;
+        editSection.innerHTML = `<h3>Student: ${currentName} (Roll No: ${currentRoll})</h3><hr>`;
+
+        records.forEach((rec, index) => {
+          editSection.innerHTML += `
+            <div class="subjectRow" id="subjRow-${rec.subject}">
+              <strong>${rec.subject}</strong>:
+              <input type="number" id="marks-${index}" value="${rec.marks}" style="width:80px;">
+              <button onclick="updateMarks('${rec.rowIndex}', document.getElementById('marks-${index}').value)">Update</button>
+              <button onclick="deleteSubject('${rec.subject}')">🗑️ Delete</button>
+            </div>`;
+        });
+
+        editSection.innerHTML += `
+          <hr>
+          <h4>Add New Subject</h4>
+          <label>Subject:</label>
+          <input type="text" id="newSubjInput" placeholder="e.g., English">
+          <label>Marks:</label>
+          <input type="number" id="newSubjMarks" placeholder="e.g., 85">
+          <button onclick="addNewSubject()">➕ Add Subject</button>
+          <p id="addSubjStatus"></p>`;
+
+        editSection.style.display = "block";
+        status.innerText = "";
+      } else {
+        editSection.style.display = "none";
+        status.innerText = "⚠️ Record Not Found.";
       }
+    })
+    .catch(err => {
+      document.getElementById("editSection").style.display = "none";
+      document.getElementById("status").innerText = "❌ Error: " + err.message;
+    });
+});
 
-      const classVal = document.getElementById("class").value;
-      const section = document.getElementById("section").value;
-      const roll = document.getElementById("roll").value;
-      const subject = document.getElementById("subject").value;
-      const marks = document.getElementById("marks").value;
-      const responseDiv = document.getElementById("response");
+function updateMarks(rowIndex, newMarks) {
+  const params = new URLSearchParams();
+  params.append("sheet", currentClass);
+  params.append("rowIndex", rowIndex);
+  params.append("marks", newMarks);
 
-      fetch(WEB_APP_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          role: "teacher",
-          class: classVal,
-          section: section,
-          rollNumber: roll,
-          subject: subject,
-          marks: marks
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          responseDiv.innerText = "Marks updated successfully!";
-          responseDiv.className = "success";
-        } else {
-          responseDiv.innerText = data.error || "Update failed.";
-          responseDiv.className = "error";
-        }
-      })
-      .catch(err => {
-        responseDiv.innerText = "Error connecting to server.";
-        responseDiv.className = "error";
-      });
-    }
-  </script>
+  fetch(scriptURL, {
+    method: "POST",
+    body: params
+  })
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("status").innerText = data;
+    });
+}
+
+function deleteSubject(subjectName) {
+  if (!confirm(`Are you sure you want to delete subject "${subjectName}" for Roll No ${currentRoll}?`)) return;
+
+  const url = `${scriptURL}?sheet=${currentClass}&rollNo=${currentRoll}&subject=${subjectName}`;
+
+  fetch(url, {
+    method: "GET"
+  })
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("status").innerText = data;
+      const row = document.getElementById(`subjRow-${subjectName}`);
+      if (row) row.remove();
+    });
+}
+
+function addNewSubject() {
+  const subject = document.getElementById("newSubjInput").value.trim();
+  const marks = document.getElementById("newSubjMarks").value.trim();
+
+  if (!subject || !marks) {
+    document.getElementById("addSubjStatus").innerText = "❗ Please enter both subject and marks.";
+    return;
+  }
+
+  const params = new URLSearchParams();
+  params.append("sheet", currentClass);
+  params.append("rollNo", currentRoll);
+  params.append("name", currentName);
+  params.append("subjects", JSON.stringify([{ subject, marks }]));
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: params
+  })
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("addSubjStatus").innerText = data;
+    });
+}
+</script>
     </body>
 </html>
