@@ -86,8 +86,8 @@ body.loaded {
             const loginForm = document.getElementById('loginForm');
             const loginButton = document.getElementById('loginButton');
             const creds = [
-                {username: 'admin', password: 'password', email: 'user@example.com'},
-                {username: 'user', password: '12345', email: 'user@example.com'}
+                {username: 'admin', password: 'password', email: 'user@example.com', role: 'teacher'},
+                {username: 'user', password: '12345', email: 'user@example.com', role: 'teacher'}
             ];
             if (loginForm) {
                 loginForm.addEventListener('submit', e => {

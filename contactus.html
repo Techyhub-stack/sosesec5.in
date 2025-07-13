@@ -1,85 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-bs-theme="light" lang="en">
     <head>
-        <meta charset="UTF-8"/>
         <link rel="icon" href="assets/img/logo.png" type="image/x-icon">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Our Faculty - DBRA SOSE</title>
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="assets/css/Montserrat.css"/>
-        <link rel="stylesheet" href="assets/css/main.css"/>
+        <meta charset="utf-8">
+        <title>DBRA SOSE SEC-5 Dwarka</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Features - Brand</title>
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/Montserrat.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
         <link rel="stylesheet" href="assets/css/baguetteBox.min.css">
         <link rel="stylesheet" href="assets/css/Carousel-overlay-text.css">
         <link rel="stylesheet" href="assets/css/iframe-youtube-mloureiro1973.css">
         <link rel="stylesheet" href="assets/css/main.css">
         <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
-        <style>body {
-    font-family: 'Montserrat', sans-serif;
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out;
-    background-color: #f8f9fa;
-    padding-top: 90px;
-}
+        <style>
+    body {
+        animation: slideInFromLeft 0.8s ease-in-out;
+    }
 
-body.loaded {
-    opacity: 1;
-}
-
-.faculty-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 20px;
-    width: 350px;
-    height: 350px;
-}
-
-.faculty-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-.faculty-img {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    height: 250px;
-    object-fit: cover;
-    width: 100%;
-}
-
-.dropdown-menu {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-50%) translateY(-20px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    background-color: #fff;
-    border-radius: 1rem;
-    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.1);
-    border: none;
-    padding: 0.5rem;
-    min-width: 250px;
-    word-wrap: break-word;
-    white-space: normal;
-    position: fixed !important;
-    left: 50% !important;
-    top: 80px;
-    z-index: 1050;
-    display: block;
-    pointer-events: none;
-}
-
-.nav-item.dropdown:hover .dropdown-menu,
-.dropdown-menu:hover {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-    pointer-events: auto;
-}</style>
+    @keyframes slideInFromLeft {
+        0% {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+</style>
     </head>
     <body>
-        <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        document.body.classList.add("loaded");
-      });
-    </script>
         <nav class="navbar navbar-expand-lg navbar-light bg-body fixed-top shadow-sm clean-navbar transition">
             <div class="container-fluid px-4">
                 <a class="navbar-brand d-flex align-items-center" href="index.html">
@@ -105,9 +57,9 @@ body.loaded {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">More</a>
                             <ul class="dropdown-menu text-start" aria-labelledby="moreDropdown">
-                                <li><a class="dropdown-item" href="Houses.html">Houses</a></li>
+                                <li><a class="dropdown-item" href="#">Portal</a></li>
                                 <li><a class="dropdown-item" href="#">Committee</a></li>
-                                <li><a class="dropdown-item" href="StudentCouncil.html">Student Council</a></li>
+                                <li><a class="dropdown-item" href="#">Student Council</a></li>
                                 <li><a class="dropdown-item" href="#">Contact Us</a></li>
                                 <li><a class="dropdown-item" href="#">Blog</a></li>
                                 <li><a class="dropdown-item" href="#">Newsletter</a></li>
@@ -120,53 +72,39 @@ body.loaded {
                 </div>
             </div>
         </nav>
-        <main class="container py-5">
-            <h2 class="text-center text-info mb-5">Meet Our Faculty</h2>
-
-            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 15px;">
-                <div class="card faculty-card">
-                    <img src="assets/img/faculty/faculty1.jpg" class="faculty-img"/>
-                    <div class="card-body">
-                        <h5 class="card-title">Mrs.Monika Batra</h5>
-                        <p class="card-text">Head Of School / Principal&nbsp;</p>
+        <main class="page">
+            <section class="clean-block features">
+                <div class="container">
+                    <div class="block-heading">
+                        <h2 class="text-info">WHY US ?</h2>
+                        <p>Why Parents &amp; Stduents should opt for SOSEs:</p>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-5 feature-box">
+                            <i class="icon-star icon"></i>
+                            <h4>Specialized learning:</h4>
+                            <p>SoSEs offer specialized courses and training in areas like science, technology, engineering, mathematics, humanities, performing arts, and visual arts. This allows you to develop expertise in a field that interests you.</p>
+                        </div>
+                        <div class="col-md-5 feature-box">
+                            <i class="icon-pencil icon"></i>
+                            <h4>Experienced faculty:</h4>
+                            <p>SoSEs have experienced and dedicated faculty who are experts in their fields. This provides you with access to high-quality instruction and mentorship.</p>
+                        </div>
+                        <div class="col-md-5 feature-box">
+                            <i class="icon-screen-smartphone icon"></i>
+                            <h4>Real-world experience:</h4>
+                            <p>SoSEs offer opportunities for real-world experience through internships, projects, and competitions. This helps you apply your skills and gain valuable experience.</p>
+                        </div>
+                        <div class="col-md-5 feature-box">
+                            <i class="icon-refresh icon"></i>
+                            <h4>Supportive environment:</h4>
+                            <p>SoSEs provide a supportive and collaborative learning environment. This can help you thrive and reach your full potential.</p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="card faculty-card">
-                    <img src="assets/img/faculty/faculty1.jpg" class="faculty-img"/>
-                    <div class="card-body">
-                        <h5 class="card-title">Mrs.Monika Batra</h5>
-                        <p class="card-text">Head Of School / Principal&nbsp;</p>
-                    </div>
-                </div>
-
-                <div class="card faculty-card">
-                    <img src="assets/img/faculty/faculty1.jpg" class="faculty-img"/>
-                    <div class="card-body">
-                        <h5 class="card-title">Mrs.Monika Batra</h5>
-                        <p class="card-text">Head Of School / Principal&nbsp;</p>
-                    </div>
-                </div>
-
-                <div class="card faculty-card">
-                    <img src="assets/img/faculty/faculty1.jpg" class="faculty-img"/>
-                    <div class="card-body">
-                        <h5 class="card-title">Mrs.Monika Batra</h5>
-                        <p class="card-text">Head Of School / Principal&nbsp;</p>
-                    </div>
-                </div>
-
-                <div class="card faculty-card">
-                    <img src="assets/img/faculty/faculty1.jpg" class="faculty-img"/>
-                    <div class="card-body">
-                        <h5 class="card-title">Mrs.Monika Batra</h5>
-                        <p class="card-text">Head Of School / Principal&nbsp;</p>
-                    </div>
-                </div>
-            </div>
-
-
+            </section>
         </main>
+        <!-- Start: Footer Dark -->
         <footer class="page-footer dark">
             <div class="container">
                 <div class="row">
@@ -174,7 +112,7 @@ body.loaded {
                         <h5>Get started</h5>
                         <ul>
                             <li>
-                                <a href="/">Home</a>
+                                <a href="#">Home</a>
                             </li>
                             <li>
                                 <a href="#">Sign up</a>
@@ -188,7 +126,7 @@ body.loaded {
                         <h5>About us</h5>
                         <ul>
                             <li>
-                                <a href="#">About Our School</a>
+                                <a href="#">Company Information</a>
                             </li>
                             <li>
                                 <a href="#">Contact us</a>
@@ -213,7 +151,7 @@ body.loaded {
                         </ul>
                     </div>
                     <div class="col-sm-3">
-                        <h5>Policies &amp; Regulations</h5>
+                        <h5>Legal</h5>
                         <ul>
                             <li>
                                 <a href="#">Terms of Service</a>
@@ -229,9 +167,13 @@ body.loaded {
                 </div>
             </div>
             <div class="footer-copyright">
-                <p>© CM SHRI SEC -5&nbsp; Copyright&nbsp;</p>
+                <p>© 2024 Copyright Text</p>
             </div>
         </footer>
+        <!-- End: Footer Dark -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/baguetteBox.min.js"></script>
+        <script src="assets/js/vanilla-zoom.js"></script>
+        <script src="assets/js/theme.js"></script>
     </body>
 </html>
