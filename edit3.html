@@ -2,219 +2,284 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Edit Student Records</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f6f9;
-      padding: 20px;
-      animation: fadeIn 0.6s ease-in;
+      background: #f4f4f9;
+      padding: 30px;
     }
 
     h2 {
       text-align: center;
-      color: #2b5876;
+      margin-bottom: 30px;
     }
 
     select, input, button {
-      margin: 6px;
+      margin-bottom: 10px;
       padding: 10px;
+      width: 100%;
       border-radius: 6px;
       border: 1px solid #ccc;
-      font-size: 1rem;
     }
 
-    .container {
-      display: flex;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-
-    .box {
-      flex: 1;
-      min-width: 300px;
+    .form-section {
+      max-width: 600px;
+      margin: auto;
       background: white;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      margin-bottom: 40px;
+    }
+
+    .subject-pair {
+      display: flex;
+      gap: 10px;
+    }
+
+    .subject-pair input {
+      flex: 1;
     }
 
     .photo-preview {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin: 10px 0;
+      margin-top: 10px;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .btn-add, .btn-submit, .btn-delete {
+      background-color: #2b5876;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-delete {
+      background-color: #e74c3c;
+    }
+
+    .btn-add:hover, .btn-submit:hover {
+      background-color: #4e4376;
+    }
+
+    .btn-delete:hover {
+      background-color: #c0392b;
     }
   </style>
     </head>
     <body>
-        <h2>Manage Student Records</h2>
-        <div class="container">
-            <div class="box">
-                <h3>Edit Existing Student</h3>
-                <select id="edit-class-select"></select>
-                <select id="roll-select"></select>
-                <input type="text" id="edit-name" placeholder="Student Name"/>
-                <img id="edit-preview" class="photo-preview"/>
-                <input type="file" id="edit-photo" accept="image/*"/>
-                <div id="edit-subjects"></div>
-                <input type="text" id="new-subject" placeholder="Subject Name"/>
-                <input type="number" id="new-marks" placeholder="Marks"/>
-                <button onclick="addSubject()">Add Subject</button>
-                <br/>
-                <button onclick="updateStudent()">Update Student</button>
-                <button onclick="deleteStudent()">Delete Student</button>
-            </div>
-            <div class="box">
-                <h3>Add New Student</h3>
-                <select id="add-class-select"></select>
-                <input type="text" id="new-roll" placeholder="Roll Number"/>
-                <input type="text" id="new-name" placeholder="Student Name"/>
-                <input type="file" id="new-photo" accept="image/*"/>
-                <div id="new-subjects-container"></div>
-                <input type="text" id="subject-name" placeholder="Subject Name"/>
-                <input type="number" id="subject-marks" placeholder="Marks"/>
-                <button onclick="addNewSubject()">Add Subject</button>
-                <br/>
-                <button onclick="addStudent()">Add Student</button>
+        <h2>Edit Student Records</h2>
+        <div class="form-section">
+            <label>Select Class:</label>
+            <select id="classSelect">
+                <option value="">-- Select Class --</option>
+            </select>
+            <label>Select Roll Number:</label>
+            <select id="rollSelect">
+                <option value="">-- Select Roll No --</option>
+            </select>
+            <button id="fetchBtn" class="btn-submit">Fetch Student</button>
+            <div id="editForm" style="display: none;">
+                <label>Student Name:</label>
+                <input type="text" id="nameEdit" placeholder="Name"/>
+                <div id="subjectMarksEdit"></div>
+                <button id="addSubjectBtnEdit" class="btn-add">Add Subject</button>
+                <label>Photo:</label>
+                <input type="file" id="photoEdit" accept="image/*"/>
+                <div class="photo-preview">
+                    <img id="photoPreviewEdit" src="" alt="No Photo"/>
+                </div>
+                <button id="saveEditBtn" class="btn-submit">Save Changes</button>
+                <button id="deleteBtn" class="btn-delete">Delete Student</button>
             </div>
         </div>
+        <div class="form-section">
+            <h3>Add New Student</h3>
+            <label>Class:</label>
+            <select id="newClassSelect">
+                <option value="">-- Select Class --</option>
+            </select>
+            <label>Roll Number:</label>
+            <input type="number" id="rollInput" placeholder="Roll Number"/>
+            <label>Student Name:</label>
+            <input type="text" id="nameInput" placeholder="Name"/>
+            <div id="subjectMarksNew"></div>
+            <button id="addSubjectBtnNew" class="btn-add">Add Subject</button>
+            <label>Photo:</label>
+            <input type="file" id="photoInput" accept="image/*"/>
+            <button id="addBtn" class="btn-submit">Add Student</button>
+        </div>
         <script>
-    const endpoint = 'https://script.google.com/macros/s/AKfycbyLzP6YACybvuJ97wzxEdsT8L6HPRLD7Hi-10BiJINKzzXUbtlQrej1O6QzH8jKl8uCcQ/exec';
+    const endpoint = "https://script.google.com/macros/s/AKfycbyLzP6YACybvuJ97wzxEdsT8L6HPRLD7Hi-10BiJINKzzXUbtlQrej1O6QzH8jKl8uCcQ/exec";
 
-    const editClassSelect = document.getElementById('edit-class-select');
-    const rollSelect = document.getElementById('roll-select');
-    const editName = document.getElementById('edit-name');
-    const editPhotoInput = document.getElementById('edit-photo');
-    const editPreview = document.getElementById('edit-preview');
-    const editSubjectsDiv = document.getElementById('edit-subjects');
-    let currentSubjects = [];
+    const classSelect = document.getElementById("classSelect");
+    const rollSelect = document.getElementById("rollSelect");
+    const fetchBtn = document.getElementById("fetchBtn");
 
-    const addClassSelect = document.getElementById('add-class-select');
-    const newSubjectsContainer = document.getElementById('new-subjects-container');
-    let newSubjects = [];
+    const nameEdit = document.getElementById("nameEdit");
+    const subjectMarksEdit = document.getElementById("subjectMarksEdit");
+    const photoEdit = document.getElementById("photoEdit");
+    const photoPreviewEdit = document.getElementById("photoPreviewEdit");
+    const saveEditBtn = document.getElementById("saveEditBtn");
+    const deleteBtn = document.getElementById("deleteBtn");
 
-    const classNames = ['Class_10_A', 'Class_10_B', 'Class_10_C', 'Class_10_D',
-                        'Class_11_A', 'Class_11_B', 'Class_11_C', 'Class_11_D',
-                        'Class_12_A', 'Class_12_B', 'Class_12_C', 'Class_12_D'];
+    const newClassSelect = document.getElementById("newClassSelect");
+    const rollInput = document.getElementById("rollInput");
+    const nameInput = document.getElementById("nameInput");
+    const subjectMarksNew = document.getElementById("subjectMarksNew");
+    const photoInput = document.getElementById("photoInput");
+    const addBtn = document.getElementById("addBtn");
+
+    const addSubjectBtnNew = document.getElementById("addSubjectBtnNew");
+    const addSubjectBtnEdit = document.getElementById("addSubjectBtnEdit");
+
+    const editForm = document.getElementById("editForm");
+
+    const classes = ["Class_10_A", "Class_10_B", "Class_10_C", "Class_10_D", "Class_11_A", "Class_11_B", "Class_11_C", "Class_11_D", "Class_12_A", "Class_12_B", "Class_12_C", "Class_12_D"];
 
     function populateClassDropdowns() {
-      classNames.forEach(cls => {
-        editClassSelect.innerHTML += `<option value="${cls}">${cls}</option>`;
-        addClassSelect.innerHTML += `<option value="${cls}">${cls}</option>`;
+      classes.forEach(cls => {
+        const option1 = new Option(cls, cls);
+        const option2 = new Option(cls, cls);
+        classSelect.appendChild(option1);
+        newClassSelect.appendChild(option2);
       });
     }
 
-    async function fetchRolls() {
-      const cls = editClassSelect.value;
-      const res = await fetch(`${endpoint}?action=getRolls&class=${cls}`);
-      const data = await res.json();
-      rollSelect.innerHTML = '<option>Select</option>';
-      data.forEach(s => {
-        rollSelect.innerHTML += `<option value="${s.rollNo}">${s.rollNo}</option>`;
-      });
+    function createSubjectRow(container, subject = '', marks = '') {
+      const div = document.createElement('div');
+      div.className = 'subject-pair';
+      div.innerHTML = `
+        <input type="text" placeholder="Subject" value="${subject}" class="subject" />
+        <input type="number" placeholder="Marks" value="${marks}" class="marks" />
+      `;
+      container.appendChild(div);
     }
 
-    async function fetchStudent() {
-      const cls = editClassSelect.value;
-      const roll = rollSelect.value;
-      const res = await fetch(`${endpoint}?action=getStudent&class=${cls}&roll=${roll}`);
-      const data = await res.json();
-      editName.value = data.name || '';
-      editPreview.src = data.photoUrl || '';
-      currentSubjects = data.subjects || [];
-      renderSubjectList();
-    }
-
-    function renderSubjectList() {
-      editSubjectsDiv.innerHTML = '';
-      currentSubjects.forEach((s, i) => {
-        editSubjectsDiv.innerHTML += `
-          <div>
-            ${s.subject}: <input value="${s.marks}" onchange="updateMarks(${i}, this.value)" />
-            <button onclick="deleteSubject(${i})">❌</button>
-          </div>`;
-      });
-    }
-
-    function updateMarks(i, val) {
-      currentSubjects[i].marks = parseInt(val);
-    }
-
-    function deleteSubject(i) {
-      currentSubjects.splice(i, 1);
-      renderSubjectList();
-    }
-
-    function addSubject() {
-      const subject = document.getElementById('new-subject').value;
-      const marks = parseInt(document.getElementById('new-marks').value);
-      currentSubjects.push({ subject, marks });
-      renderSubjectList();
-    }
-
-    async function updateStudent() {
-      const cls = editClassSelect.value;
-      const roll = rollSelect.value;
-      const name = editName.value;
-      const photo = editPhotoInput.files[0];
+    function uploadPhoto(file) {
       const form = new FormData();
-      form.append('action', 'updateStudent');
-      form.append('class', cls);
-      form.append('roll', roll);
-      form.append('name', name);
-      form.append('subjects', JSON.stringify(currentSubjects));
-      if (photo) form.append('photo', photo);
-      await fetch(endpoint, { method: 'POST', body: form });
-      alert('Student updated!');
+      form.append('photo', file);
+      return fetch(endpoint, {
+        method: 'POST',
+        body: form
+      })
+      .then(res => res.json())
+      .then(data => data.photoUrl || '');
     }
 
-    async function deleteStudent() {
-      const cls = editClassSelect.value;
+    classSelect.addEventListener('change', () => {
+      const selectedClass = classSelect.value;
+      rollSelect.innerHTML = '<option value="">-- Select Roll No --</option>';
+      if (!selectedClass) return;
+      fetch(`${endpoint}?action=getRolls&class=${selectedClass}`)
+        .then(res => res.json())
+        .then(rolls => {
+          rolls.forEach(r => {
+            const opt = new Option(r.rollNo, r.rollNo);
+            rollSelect.appendChild(opt);
+          });
+        });
+    });
+
+    fetchBtn.addEventListener('click', () => {
+      const cls = classSelect.value;
       const roll = rollSelect.value;
-      await fetch(`${endpoint}?action=deleteStudent&class=${cls}&roll=${roll}`);
-      alert('Student deleted!');
-    }
+      if (!cls || !roll) return;
+      fetch(`${endpoint}?action=getStudent&class=${cls}&rollNo=${roll}`)
+        .then(res => res.json())
+        .then(student => {
+          nameEdit.value = student.name || '';
+          photoPreviewEdit.src = student.photoUrl || '';
+          subjectMarksEdit.innerHTML = '';
+          (student.subjects || []).forEach(pair => createSubjectRow(subjectMarksEdit, pair.subject, pair.marks));
+          editForm.style.display = 'block';
+        });
+    });
 
-    function addNewSubject() {
-      const s = document.getElementById('subject-name').value;
-      const m = parseInt(document.getElementById('subject-marks').value);
-      newSubjects.push({ subject: s, marks: m });
-      renderNewSubjects();
-    }
+    addSubjectBtnNew.addEventListener('click', () => createSubjectRow(subjectMarksNew));
+    addSubjectBtnEdit.addEventListener('click', () => createSubjectRow(subjectMarksEdit));
 
-    function renderNewSubjects() {
-      newSubjectsContainer.innerHTML = '';
-      newSubjects.forEach((s, i) => {
-        newSubjectsContainer.innerHTML += `<div>${s.subject}: ${s.marks}</div>`;
+    addBtn.addEventListener('click', async () => {
+      const cls = newClassSelect.value;
+      const roll = rollInput.value.trim();
+      const name = nameInput.value.trim();
+      const file = photoInput.files[0];
+      if (!cls || !roll || !name) return alert("All fields required");
+      const subjects = [...subjectMarksNew.querySelectorAll('.subject-pair')].map(row => {
+        return {
+          subject: row.querySelector('.subject').value.trim(),
+          marks: row.querySelector('.marks').value.trim()
+        };
       });
-    }
 
-    async function addStudent() {
-      const cls = addClassSelect.value;
-      const roll = document.getElementById('new-roll').value;
-      const name = document.getElementById('new-name').value;
-      const photo = document.getElementById('new-photo').files[0];
-      const form = new FormData();
-      form.append('action', 'addStudent');
-      form.append('class', cls);
-      form.append('roll', roll);
-      form.append('name', name);
-      form.append('subjects', JSON.stringify(newSubjects));
-      if (photo) form.append('photo', photo);
-      await fetch(endpoint, { method: 'POST', body: form });
-      alert('Student added!');
-    }
+      let photoUrl = '';
+      if (file) photoUrl = await uploadPhoto(file);
 
-    editClassSelect.onchange = fetchRolls;
-    rollSelect.onchange = fetchStudent;
+      fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'addStudent',
+          class: cls,
+          rollNo: roll,
+          name,
+          photoUrl,
+          subjects
+        })
+      }).then(() => alert("Student Added"));
+    });
+
+    saveEditBtn.addEventListener('click', async () => {
+      const cls = classSelect.value;
+      const roll = rollSelect.value;
+      const name = nameEdit.value.trim();
+      const file = photoEdit.files[0];
+      if (!cls || !roll || !name) return;
+      const subjects = [...subjectMarksEdit.querySelectorAll('.subject-pair')].map(row => {
+        return {
+          subject: row.querySelector('.subject').value.trim(),
+          marks: row.querySelector('.marks').value.trim()
+        };
+      });
+
+      let photoUrl = photoPreviewEdit.src;
+      if (file) photoUrl = await uploadPhoto(file);
+
+      fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'updateStudent',
+          class: cls,
+          rollNo: roll,
+          name,
+          photoUrl,
+          subjects
+        })
+      }).then(() => alert("Student Updated"));
+    });
+
+    deleteBtn.addEventListener('click', () => {
+      const cls = classSelect.value;
+      const roll = rollSelect.value;
+      if (confirm("Are you sure you want to delete this student?")) {
+        fetch(endpoint, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'deleteStudent',
+            class: cls,
+            rollNo: roll
+          })
+        }).then(() => alert("Student Deleted"));
+      }
+    });
 
     populateClassDropdowns();
   </script>
