@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit Student Data</title>
+        <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #f9f9f9;
+    }
+    h2 {
+      color: #333;
+    }
+    .form-section {
+      background: #fff;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+    select, input, button, textarea {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .subject-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .subject-row input {
+      flex: 1;
+    }
+    .subject-row button {
+      width: auto;
+      background: #dc3545;
+    }
+    .photo-preview {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+    </head>
+    <body>
+        <h2>📌 Add New Student</h2>
+        <div class="form-section">
+            <form id="addForm">
+                <label>Select Class</label>
+                <select id="addClass" required></select>
+                <label>Roll Number</label>
+                <input type="number" id="addRoll" required>
+                <label>Name</label>
+                <input type="text" id="addName" required>
+                <label>Photo</label>
+                <input type="file" id="addPhoto" accept="image/*">
+                <img id="addPreview" class="photo-preview" style="display:none;"/>
+                <div id="addSubjects"></div>
+                <button type="button" onclick="addSubject('addSubjects')">+ Add Subject</button>
+                <button type="submit">Add Student</button>
+            </form>
+        </div>
+        <h2>✏️ Edit Existing Student</h2>
+        <div class="form-section">
+            <form id="editForm">
+                <label>Select Class</label>
+                <select id="editClass" required></select>
+                <label>Select Roll Number</label>
+                <select id="editRoll" required></select>
+                <label>Name</label>
+                <input type="text" id="editName">
+                <label>Photo</label>
+                <input type="file" id="editPhoto" accept="image/*">
+                <img id="editPreview" class="photo-preview" style="display:none;"/>
+                <div id="editSubjects"></div>
+                <button type="button" onclick="addSubject('editSubjects')">+ Add Subject</button>
+                <button type="submit">Update Student</button>
+                <button type="button" style="background:#dc3545;" onclick="deleteStudent()">Delete Student</button>
+            </form>
+        </div>
+        <script>
+    const scriptURL = "https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec";
+    let currentPhotoFile = null;
+
+    async function fetchJSON(url) {
+      const res = await fetch(url);
+      return res.json();
+    }
+
+    function populateClassDropdowns() {
+      fetchJSON(`${scriptURL}?action=getClasses`).then(classes => {
+        const add = document.getElementById('addClass');
+        const edit = document.getElementById('editClass');
+        add.innerHTML = edit.innerHTML = '';
+        classes.forEach(cls => {
+          const option = `<option value="${cls}">${cls}</option>`;
+          add.innerHTML += option;
+          edit.innerHTML += option;
+        });
+        onEditClassChange(); // Trigger fetch roll numbers
+      });
+    }
+
+    function onEditClassChange() {
+      const cls = document.getElementById('editClass').value;
+      fetchJSON(`${scriptURL}?action=getRolls&class=${cls}`).then(rolls => {
+        const rollDropdown = document.getElementById('editRoll');
+        rollDropdown.innerHTML = '';
+        rolls.forEach(r => {
+          rollDropdown.innerHTML += `<option value="${r}">${r}</option>`;
+        });
+        onEditRollChange();
+      });
+    }
+
+    function onEditRollChange() {
+      const cls = document.getElementById('editClass').value;
+      const roll = document.getElementById('editRoll').value;
+      fetchJSON(`${scriptURL}?action=getStudent&class=${cls}&roll=${roll}`).then(student => {
+        document.getElementById('editName').value = student.name || '';
+        const subjectsDiv = document.getElementById('editSubjects');
+        subjectsDiv.innerHTML = '';
+        if (student.subjects) {
+          student.subjects.forEach(sub => {
+            subjectsDiv.innerHTML += makeSubjectRow(sub.name, sub.marks);
+          });
+        }
+        if (student.photoUrl) {
+          const img = document.getElementById('editPreview');
+          img.src = student.photoUrl;
+          img.style.display = 'block';
+        }
+      });
+    }
+
+    function makeSubjectRow(sub = '', marks = '') {
+      return `
+        <div class="subject-row">
+          <input type="text" placeholder="Subject" value="${sub}">
+          <input type="number" placeholder="Marks" value="${marks}">
+          <button type="button" onclick="this.parentElement.remove()">✖</button>
+        </div>`;
+    }
+
+    function addSubject(containerId) {
+      document.getElementById(containerId).innerHTML += makeSubjectRow();
+    }
+
+    // Upload and submit (ADD)
+    document.getElementById('addForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const cls = document.getElementById('addClass').value;
+      const roll = document.getElementById('addRoll').value;
+      const name = document.getElementById('addName').value;
+      const photo = document.getElementById('addPhoto').files[0];
+      const subjects = [...document.getElementById('addSubjects').querySelectorAll('.subject-row')].map(row => ({
+        subject: row.children[0].value,
+        marks: row.children[1].value
+      }));
+      const formData = new FormData();
+      formData.append('action', 'addStudent');
+      formData.append('class', cls);
+      formData.append('roll', roll);
+      formData.append('name', name);
+      formData.append('subjects', JSON.stringify(subjects));
+      if (photo) formData.append('photo', photo);
+
+      const res = await fetch(scriptURL, { method: 'POST', body: formData });
+      alert("Student added!");
+      document.getElementById('addForm').reset();
+      document.getElementById('addPreview').style.display = 'none';
+    });
+
+    // Upload and submit (EDIT)
+    document.getElementById('editForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const cls = document.getElementById('editClass').value;
+      const roll = document.getElementById('editRoll').value;
+      const name = document.getElementById('editName').value;
+      const photo = document.getElementById('editPhoto').files[0];
+      const subjects = [...document.getElementById('editSubjects').querySelectorAll('.subject-row')].map(row => ({
+        subject: row.children[0].value,
+        marks: row.children[1].value
+      }));
+      const formData = new FormData();
+      formData.append('action', 'updateStudent');
+      formData.append('class', cls);
+      formData.append('roll', roll);
+      formData.append('name', name);
+      formData.append('subjects', JSON.stringify(subjects));
+      if (photo) formData.append('photo', photo);
+
+      const res = await fetch(scriptURL, { method: 'POST', body: formData });
+      alert("Student updated!");
+    });
+
+    async function deleteStudent() {
+      const cls = document.getElementById('editClass').value;
+      const roll = document.getElementById('editRoll').value;
+      if (confirm(`Delete student ${roll} from ${cls}?`)) {
+        await fetch(`${scriptURL}?action=deleteStudent&class=${cls}&roll=${roll}`);
+        alert('Deleted!');
+        onEditClassChange();
+      }
+    }
+
+    document.getElementById('editClass').addEventListener('change', onEditClassChange);
+    document.getElementById('editRoll').addEventListener('change', onEditRollChange);
+
+    // Preview photo
+    document.getElementById('addPhoto').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          document.getElementById('addPreview').src = reader.result;
+          document.getElementById('addPreview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('editPhoto').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          document.getElementById('editPreview').src = reader.result;
+          document.getElementById('editPreview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    populateClassDropdowns();
+  </script>
+    </body>
+</html>

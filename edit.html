@@ -111,7 +111,7 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-const apiUrl = 'https://script.google.com/macros/s/AKfycbxvo29JmLddIkeoJx_Ie9rI2OtJeLC9gdPuVciFecggYLZc8KXvgv4-lChFQD57LLsCCQ/exec';
+const apiUrl = 'https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec';
 
 // --- Utility ---
 function createSubjectFields(section, subject = '', marks = '') {
@@ -160,4 +160,38 @@ function updateRolls() {
 function fetchStudentData() {
   const cls = document.getElementById('edit-class-select').value;
   const roll = document.getElementById('edit-roll-select').value;
-  fetch(`${apiUrl}?action=getStudent&class=${cls}&ro</script>
+  fetch(`${apiUrl}?action=getStudent&class=${cls}&rollNo=${roll}`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('edit-details').style.display = 'block';
+      document.getElementById('edit-name').value = data.name;
+      document.getElementById('edit-photo-preview').src = data.photoUrl || '';
+      document.getElementById('edit-subjects-container').innerHTML = '';
+      data.subjects.forEach(sub => createSubjectFields('edit', sub.subject, sub.marks));
+    });
+}
+
+// --- Form Submissions (Dummy Alerts) ---
+document.getElementById('add-form').addEventListener('submit', e => {
+  e.preventDefault();
+  alert('Submit logic for ADD goes here');
+});
+document.getElementById('edit-form').addEventListener('submit', e => {
+  e.preventDefault();
+  alert('Submit logic for EDIT goes here');
+});
+
+function deleteStudent() {
+  const cls = document.getElementById('edit-class-select').value;
+  const roll = document.getElementById('edit-roll-select').value;
+  if (confirm('Delete this student?')) {
+    fetch(`${apiUrl}?action=deleteStudent&class=${cls}&rollNo=${roll}`)
+      .then(res => res.text())
+      .then(msg => alert(msg));
+  }
+}
+
+fetchClassesAndRolls();
+</script>
+    </body>
+</html>
