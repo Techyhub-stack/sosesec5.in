@@ -3,141 +3,143 @@
     <head>
         <meta charset="UTF-8"/>
         <title>Student Results</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-        <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f6f8;
-      padding: 30px;
-      animation: fadeIn 0.6s ease-in;
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <style>body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9fb;
+    padding: 20px;
+    animation: fadeIn 0.6s ease-in;
+}
+
+select {
+    margin-bottom: 16px;
+    padding: 8px;
+    font-size: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+    padding: 14px;
+    border: 1px solid #eee;
+    text-align: center;
+}
+
+img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    text-align: left;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-    .container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-    img.student-photo {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 2px solid #ddd;
-    }
-    .modal-subjects li {
-      padding: 5px 0;
-    }
-    .table-hover tbody tr:hover {
-      background-color: #f1f1f1;
-      cursor: pointer;
-    }
-  </style>
+}</style>
     </head>
     <body>
-        <div class="container">
-            <h2 class="mb-4">Student Results</h2>
-            <div class="mb-3">
-                <label for="classSelect" class="form-label">Select Class</label>
-                <select id="classSelect" class="form-select">
-                    <option selected disabled>Select Class</option>
-                    <option value="Class_10_A">Class 10 A</option>
-                    <option value="Class_10_B">Class 10 B</option>
-                    <option value="Class_10_C">Class 10 C</option>
-                    <option value="Class_10_D">Class 10 D</option>
-                    <option value="Class_11_A">Class 11 A</option>
-                    <option value="Class_11_B">Class 11 B</option>
-                    <option value="Class_11_C">Class 11 C</option>
-                    <option value="Class_11_D">Class 11 D</option>
-                    <option value="Class_12_A">Class 12 A</option>
-                    <option value="Class_12_B">Class 12 B</option>
-                    <option value="Class_12_C">Class 12 C</option>
-                    <option value="Class_12_D">Class 12 D</option>
-                </select>
-            </div>
-            <table class="table table-bordered table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>Photo</th>
-                        <th>Roll No</th>
-                        <th>Name</th>
-                        <th>Marks</th>
-                    </tr>
-                </thead>
-                <tbody id="studentTableBody"></tbody>
-            </table>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="studentModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="studentModalLabel">Student Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p><strong>Roll Number:</strong> <span id="modalRollNo"></span></p>
-                        <p><strong>Name:</strong> <span id="modalName"></span></p>
-                        <ul id="modalSubjects" class="modal-subjects list-unstyled"></ul>
-                    </div>
-                </div>
+        <h2>Student Results</h2>
+        <select id="class-select"></select>
+        <table>
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Marks</th>
+                </tr>
+            </thead>
+            <tbody id="results-body"></tbody>
+        </table>
+        <div class="modal" id="marks-modal">
+            <div class="modal-content">
+                <h3 id="modal-name"></h3>
+                <p><strong>Roll No:</strong> <span id="modal-roll"></span></p>
+                <div id="modal-marks"></div>
+                <button onclick="closeModal()">Close</button>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbx7h9ouVG-uhdSnyFlk5vTUN-WTgqT5xWNIIIlAjdjdgLYRxq_qjkN0YG7Mi6FSfQAsAA/exec';
-    const classSelect = document.getElementById('classSelect');
-    const tableBody = document.getElementById('studentTableBody');
+    const endpoint = 'https://script.google.com/macros/s/AKfycbyLzP6YACybvuJ97wzxEdsT8L6HPRLD7Hi-10BiJINKzzXUbtlQrej1O6QzH8jKl8uCcQ/exec';
+    const classes = ['Class_10_A','Class_10_B','Class_10_C','Class_10_D','Class_11_A','Class_11_B','Class_11_C','Class_11_D','Class_12_A','Class_12_B','Class_12_C','Class_12_D'];
 
-    let studentData = [];
+    const classSelect = document.getElementById('class-select');
+    const resultsBody = document.getElementById('results-body');
 
-    classSelect.addEventListener('change', async () => {
-      const selectedClass = classSelect.value;
-      tableBody.innerHTML = `<tr><td colspan="4">Loading...</td></tr>`;
+    const modal = document.getElementById('marks-modal');
+    const modalName = document.getElementById('modal-name');
+    const modalRoll = document.getElementById('modal-roll');
+    const modalMarks = document.getElementById('modal-marks');
 
-      const res = await fetch(`${API_URL}?action=getAllStudents&class=${selectedClass}`);
-      const data = await res.json();
-      studentData = data;
-
-      tableBody.innerHTML = '';
-      data.forEach(student => {
-        const tr = document.createElement('tr');
-
-        tr.innerHTML = `
-          <td><img src="${student.photoUrl}" class="student-photo" alt="Photo"></td>
-          <td>${student.rollNo}</td>
-          <td>${student.name}</td>
-          <td class="text-primary view-details" data-roll="${student.rollNo}" style="text-decoration: underline;">View</td>
-        `;
-
-        tableBody.appendChild(tr);
-      });
-
-      document.querySelectorAll('.view-details').forEach(cell => {
-        cell.addEventListener('click', () => {
-          const roll = cell.dataset.roll;
-          const student = studentData.find(s => s.rollNo.toString() === roll);
-
-          if (student) {
-            document.getElementById('modalRollNo').textContent = student.rollNo;
-            document.getElementById('modalName').textContent = student.name;
-            const subjectList = document.getElementById('modalSubjects');
-            subjectList.innerHTML = '';
-            student.subjects.forEach(sub => {
-              const li = document.createElement('li');
-              li.innerHTML = `<strong>${sub.subject}:</strong> ${sub.marks}`;
-              subjectList.appendChild(li);
-            });
-
-            const modal = new bootstrap.Modal(document.getElementById('studentModal'));
-            modal.show();
-          }
-        });
-      });
+    classes.forEach(cls => {
+      classSelect.innerHTML += `<option value="${cls}">${cls}</option>`;
     });
+
+    classSelect.onchange = async () => {
+      const res = await fetch(`${endpoint}?action=getAllStudents&class=${classSelect.value}`);
+      const data = await res.json();
+      renderTable(data);
+    };
+
+    function renderTable(data) {
+      resultsBody.innerHTML = '';
+      data.forEach(st => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><img src="${st.photoUrl}" /></td>
+          <td>${st.rollNo}</td>
+          <td>${st.name}</td>
+          <td><button onclick='showMarks(${JSON.stringify(st.subjects)}, "${st.name}", "${st.rollNo}")'>View</button></td>`;
+        resultsBody.appendChild(tr);
+      });
+    }
+
+    function showMarks(subjects, name, roll) {
+      modalName.textContent = name;
+      modalRoll.textContent = roll;
+      modalMarks.innerHTML = subjects.map(s => `<p>${s.subject}: ${s.marks}</p>`).join('');
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+    }
   </script>
     </body>
 </html>
