@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit Student Records</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <style>
+    body {
+      background-color: #f4f6f8;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      animation: fadeIn 0.8s ease-in;
+    }
+    .container {
+      max-width: 900px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #2b5876;
+      margin-bottom: 20px;
+    }
+    .subject-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    #photoPreview {
+      max-height: 120px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Edit Student Record</h2>
+            <div class="mb-3">
+                <label for="classSelect" class="form-label">Select Class</label>
+                <select id="classSelect" class="form-select">
+                    <option selected disabled>Select Class</option>
+                    <option value="Class_10_A">Class 10 A</option>
+                    <option value="Class_10_B">Class 10 B</option>
+                    <option value="Class_10_C">Class 10 C</option>
+                    <option value="Class_10_D">Class 10 D</option>
+                    <option value="Class_11_A">Class 11 A</option>
+                    <option value="Class_11_B">Class 11 B</option>
+                    <option value="Class_11_C">Class 11 C</option>
+                    <option value="Class_11_D">Class 11 D</option>
+                    <option value="Class_12_A">Class 12 A</option>
+                    <option value="Class_12_B">Class 12 B</option>
+                    <option value="Class_12_C">Class 12 C</option>
+                    <option value="Class_12_D">Class 12 D</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="rollSelect" class="form-label">Select Roll Number</label>
+                <select id="rollSelect" class="form-select" disabled>
+                    <option selected disabled>Select Roll Number</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="studentName" class="form-label">Student Name</label>
+                <input type="text" id="studentName" class="form-control" placeholder="Student Name">
+            </div>
+            <div class="mb-3">
+                <img id="photoPreview" src="" alt="Student Photo"/>
+                <input type="file" id="photoInput" accept="image/jpeg,image/png" class="form-control">
+            </div>
+            <div id="subjectsContainer" class="mb-3"></div>
+            <div class="d-flex justify-content-between">
+                <button id="addSubjectBtn" class="btn btn-outline-primary">+ Add Subject</button>
+                <button id="saveBtn" class="btn btn-success">Save Changes</button>
+            </div>
+        </div>
+        <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwvNbUGSrGURhInrK6trFfVUHDSqsX-0ML-5NzUxlbEOl22V-v4H_8kIbAs39lxfo4w6w/exec';
+    const classSelect = document.getElementById('classSelect');
+    const rollSelect = document.getElementById('rollSelect');
+    const studentNameInput = document.getElementById('studentName');
+    const photoInput = document.getElementById('photoInput');
+    const photoPreview = document.getElementById('photoPreview');
+    const subjectsContainer = document.getElementById('subjectsContainer');
+    const addSubjectBtn = document.getElementById('addSubjectBtn');
+    const saveBtn = document.getElementById('saveBtn');
+
+    let studentData = [];
+    let selectedClass = '';
+    let selectedStudent = null;
+
+    classSelect.addEventListener('change', async () => {
+      selectedClass = classSelect.value;
+      rollSelect.disabled = false;
+      rollSelect.innerHTML = '<option selected disabled>Loading...</option>';
+
+      const res = await fetch(`${API_URL}?action=getRolls&class=${selectedClass}`);
+      const data = await res.json();
+      studentData = data;
+
+      rollSelect.innerHTML = '<option selected disabled>Select Roll Number</option>';
+      data.forEach(student => {
+        const option = document.createElement('option');
+        option.value = student.rollNo;
+        option.textContent = `${student.rollNo} - ${student.name}`;
+        rollSelect.appendChild(option);
+      });
+    });
+
+    rollSelect.addEventListener('change', () => {
+      const rollNo = parseInt(rollSelect.value);
+      selectedStudent = studentData.find(s => s.rollNo === rollNo);
+
+      if (selectedStudent) {
+        studentNameInput.value = selectedStudent.name || '';
+        photoPreview.src = selectedStudent.photoUrl || '';
+        subjectsContainer.innerHTML = '';
+
+        (selectedStudent.subjects || []).forEach(sub => {
+          const row = document.createElement('div');
+          row.className = 'subject-row';
+          row.innerHTML = `
+            <input class="form-control" name="subject" value="${sub.subject}" placeholder="Subject">
+            <input class="form-control" name="marks" value="${sub.marks}" placeholder="Marks">
+          `;
+          subjectsContainer.appendChild(row);
+        });
+      }
+    });
+
+    addSubjectBtn.addEventListener('click', () => {
+      const row = document.createElement('div');
+      row.className = 'subject-row';
+      row.innerHTML = `
+        <input class="form-control" name="subject" placeholder="Subject">
+        <input class="form-control" name="marks" placeholder="Marks">
+      `;
+      subjectsContainer.appendChild(row);
+    });
+
+    saveBtn.addEventListener('click', async () => {
+      if (!selectedStudent) return alert('Select a student first.');
+
+      const subjects = [];
+      const subjectRows = subjectsContainer.querySelectorAll('.subject-row');
+      subjectRows.forEach(row => {
+        const subject = row.querySelector('input[name="subject"]').value;
+        const marks = row.querySelector('input[name="marks"]').value;
+        if (subject && marks) {
+          subjects.push({ subject, marks });
+        }
+      });
+
+      const body = {
+        action: 'updateStudent',
+        class: selectedClass,
+        rollNo: selectedStudent.rollNo,
+        name: studentNameInput.value,
+        subjects: subjects
+      };
+
+      // Handle photo upload if needed
+      const file = photoInput.files[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append('photo', file);
+        formData.append('action', 'uploadPhoto');
+        formData.append('class', selectedClass);
+        formData.append('rollNo', selectedStudent.rollNo);
+        const photoRes = await fetch(API_URL, {
+          method: 'POST',
+          body: formData
+        });
+        const photoData = await photoRes.json();
+        body.photoUrl = photoData.photoUrl;
+      }
+
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      const result = await res.json();
+      alert(result.message || 'Student updated successfully!');
+      location.reload();
+    });
+  </script>
+    </body>
+</html>
