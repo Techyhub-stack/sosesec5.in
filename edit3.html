@@ -4,77 +4,80 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Edit Student Records</title>
-        <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f4f9;
-      padding: 30px;
-    }
+        <style>body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f4f9;
+    padding: 30px;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-    select, input, button {
-      margin-bottom: 10px;
-      padding: 10px;
-      width: 100%;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+select,
+input,
+button {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
 
-    .form-section {
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      margin-bottom: 40px;
-    }
+.form-section {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    margin-bottom: 40px;
+}
 
-    .subject-pair {
-      display: flex;
-      gap: 10px;
-    }
+.subject-pair {
+    display: flex;
+    gap: 10px;
+}
 
-    .subject-pair input {
-      flex: 1;
-    }
+.subject-pair input {
+    flex: 1;
+}
 
-    .photo-preview {
-      margin-top: 10px;
-    }
+.photo-preview {
+    margin-top: 10px;
+}
 
-    img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
 
-    .btn-add, .btn-submit, .btn-delete {
-      background-color: #2b5876;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
+.btn-add,
+.btn-submit,
+.btn-delete {
+    background-color: #2b5876;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
 
-    .btn-delete {
-      background-color: #e74c3c;
-    }
+.btn-delete {
+    background-color: #e74c3c;
+}
 
-    .btn-add:hover, .btn-submit:hover {
-      background-color: #4e4376;
-    }
+.btn-add:hover,
+.btn-submit:hover {
+    background-color: #4e4376;
+}
 
-    .btn-delete:hover {
-      background-color: #c0392b;
-    }
-  </style>
+.btn-delete:hover {
+    background-color: #c0392b;
+}</style>
     </head>
     <body>
         <h2>Edit Student Records</h2>
@@ -119,7 +122,7 @@
             <button id="addBtn" class="btn-submit">Add Student</button>
         </div>
         <script>
-    const endpoint = "https://script.google.com/macros/s/AKfycbyLzP6YACybvuJ97wzxEdsT8L6HPRLD7Hi-10BiJINKzzXUbtlQrej1O6QzH8jKl8uCcQ/exec";
+    const endpoint = "https://script.google.com/macros/s/AKfycbxorHUsoZUuaMluss3-LfqiYPDqRMIt5rNmVDS1Q9zRhv8sfsfgOqwsTY15XO5BcKZbkQ/exec";
 
     const classSelect = document.getElementById("classSelect");
     const rollSelect = document.getElementById("rollSelect");
