@@ -1,145 +1,298 @@
+<!-- Save this as data-test.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
     <head>
-        <meta charset="UTF-8"/>
-        <title>Student Results</title>
+        <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <style>body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f9f9fb;
-    padding: 20px;
-    animation: fadeIn 0.6s ease-in;
+        <title>Student Data - DBRA SOSE</title>
+        <link rel="icon" href="assets/img/logo.png" type="image/x-icon"/>
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="assets/css/main.css"/>
+        <style>
+    body { opacity: 0; transition: opacity 0.6s ease-in-out; }
+    body.loaded { opacity: 1; }
+    .student-photo { width: 60px; height: 60px; object-fit: cover; border-radius: 50%; }
+     .modal-subject-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #ddd; }
+     /* Custom dropdown style */
+.custom-dropdown {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-15px);
+  z-index: 1050;
+  display: block;
+  min-width: 250px;
+  max-width: 90vw;
+  padding: 0.5rem;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  white-space: normal;
 }
 
-select {
-    margin-bottom: 16px;
-    padding: 8px;
-    font-size: 1rem;
+.nav-item.dropdown:hover .custom-dropdown,
+.nav-item.dropdown.show .custom-dropdown,
+.custom-dropdown:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-th,
-td {
-    padding: 14px;
-    border: 1px solid #eee;
-    text-align: center;
-}
-
-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: none;
-    background: rgba(0,0,0,0.6);
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 400px;
-    text-align: left;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}</style>
+    </style>
     </head>
     <body>
-        <h2>Student Results</h2>
-        <select id="class-select"></select>
-        <table>
-            <thead>
-                <tr>
-                    <th>Photo</th>
-                    <th>Roll No</th>
-                    <th>Name</th>
-                    <th>Marks</th>
-                </tr>
-            </thead>
-            <tbody id="results-body"></tbody>
-        </table>
-        <div class="modal" id="marks-modal">
-            <div class="modal-content">
-                <h3 id="modal-name"></h3>
-                <p><strong>Roll No:</strong> <span id="modal-roll"></span></p>
-                <div id="modal-marks"></div>
-                <button onclick="closeModal()">Close</button>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-body fixed-top shadow-sm clean-navbar transition">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand d-flex align-items-center" href="index.html">
+                    <img src="assets/img/logo.png" alt="Logo" height="70" class="me-2"/>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="features.html">What We Teach</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="data-test.html">Academics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Ourfaculty.html">Our Faculty</a>
+                        </li>
+                        <li class="nav-item dropdown position-relative">
+                            <a class="nav-link dropdown-toggle" href="#" id="moreDropdown">More</a>
+                            <ul class="dropdown-menu text-start custom-dropdown" aria-labelledby="moreDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="Houses.html">Houses</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Committee</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="StudentCouncil.html">Student Council</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Contact Us</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Blog</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Newsletter</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Campus</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Co-Curricular Activities</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Code of Conduct</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container mt-5 pt-5">
+            <h2 class="mb-4 text-center">View Student Data</h2>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="classDropdown">Select Class:</label>
+                    <select id="classDropdown" class="form-select">
+                        <option selected disabled>Choose...</option>
+                        <option value="Class_10_A">Class 10 A</option>
+                        <option value="Class_10_B">Class 10 B</option>
+                        <!-- Add more classes -->
+                    </select>
+                </div>
+            </div>
+            <table class="table table-hover table-bordered" id="studentTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Photo</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <!-- Modal for Subject Details -->
+        <div class="modal fade" id="marksModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Subject-wise Marks</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <!-- Content filled via JS -->
+                    </div>
+                </div>
             </div>
         </div>
+        <!-- FOOTER -->
+        <footer class="dark page-footer mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h5>Get started</h5>
+                        <ul>
+                            <li>
+                                <a href="testimonials.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="features.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="newsletter.html">Newsletter</a>
+                            </li>
+                            <li>
+                                <a href="#">Downloads</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-3">
+                        <h5>About us</h5>
+                        <ul>
+                            <li>
+                                <a href="index.html">Company Information</a>
+                            </li>
+                            <li>
+                                <a href="contactus.html">Contact us</a>
+                            </li>
+                            <li>
+                                <a href="testimonials.html">Reviews</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-3">
+                        <h5>Support</h5>
+                        <ul>
+                            <li>
+                                <a href="features.html">FAQ</a>
+                            </li>
+                            <li>
+                                <a href="contactus.html">Help desk</a>
+                            </li>
+                            <li>
+                                <a href="form1.html">Forums</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-3">
+                        <h5>Legal</h5>
+                        <ul>
+                            <li>
+                                <a href="TNC.html">Terms of Service</a>
+                            </li>
+                            <li>
+                                <a href="TNC.html">Privacy Policy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-copyright">
+                    <p>© 2024 Copyright Text</p>
+                </div>
+            </div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-    const endpoint = 'https://script.google.com/macros/s/AKfycbxorHUsoZUuaMluss3-LfqiYPDqRMIt5rNmVDS1Q9zRhv8sfsfgOqwsTY15XO5BcKZbkQ/exec';
-    const classes = ['Class_10_A','Class_10_B','Class_10_C','Class_10_D','Class_11_A','Class_11_B','Class_11_C','Class_11_D','Class_12_A','Class_12_B','Class_12_C','Class_12_D'];
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add("loaded");
 
-    const classSelect = document.getElementById('class-select');
-    const resultsBody = document.getElementById('results-body');
+      const classDropdown = document.getElementById("classDropdown");
+      const tableBody = document.querySelector("#studentTable tbody");
+      const modalBody = document.getElementById("modalBody");
 
-    const modal = document.getElementById('marks-modal');
-    const modalName = document.getElementById('modal-name');
-    const modalRoll = document.getElementById('modal-roll');
-    const modalMarks = document.getElementById('modal-marks');
+      classDropdown.addEventListener("change", () => {
+        const className = classDropdown.value;
+        fetch(`https://script.google.com/macros/s/AKfycbxn6wfo-XX4i0vfh9hPQW0vqAW35mFPu7-CXQluqT9mfIz_FJb_o1ODQ_jykOTllclK/exec?action=getAllStudents&class=${className}`)
+          .then(res => res.json())
+          .then(data => {
+            const grouped = {};
+            tableBody.innerHTML = "";
 
-    classes.forEach(cls => {
-      classSelect.innerHTML += `<option value="${cls}">${cls}</option>`;
+            data.forEach(entry => {
+              if (!grouped[entry.rollNo]) {
+                grouped[entry.rollNo] = {
+                  name: entry.name,
+                  photoUrl: entry.photoUrl,
+                  subjects: []
+                };
+              }
+              grouped[entry.rollNo].subjects.push({
+                subject: entry.subject,
+                marks: entry.marks
+              });
+            });
+
+            Object.entries(grouped).forEach(([rollNo, student]) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                <td>${rollNo}</td>
+                <td>${student.name}</td>
+                <td><img src="${student.photoUrl}" class="student-photo" alt="Photo"/></td>
+                <td><button class="btn btn-outline-info btn-sm" data-roll="${rollNo}">View Marks</button></td>
+              `;
+              row.querySelector("button").addEventListener("click", () => {
+                modalBody.innerHTML = `<h6>${student.name}</h6>`;
+                student.subjects.forEach(s => {
+                  modalBody.innerHTML += `<div class="modal-subject-row"><strong>${s.subject}</strong><span>${s.marks}</span></div>`;
+                });
+                new bootstrap.Modal(document.getElementById("marksModal")).show();
+              });
+              tableBody.appendChild(row);
+            });
+          });
+      });
+    });
+  </script>
+        <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropdownTrigger = document.getElementById('moreDropdown');
+    const parent = dropdownTrigger.closest('.dropdown');
+    const dropdownMenu = parent.querySelector('.custom-dropdown');
+    let keepOpen = false;
+
+    dropdownTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      parent.classList.toggle('show');
     });
 
-    classSelect.onchange = async () => {
-      const res = await fetch(`${endpoint}?action=getAllStudents&class=${classSelect.value}`);
-      const data = await res.json();
-      renderTable(data);
-    };
-
-    function renderTable(data) {
-      resultsBody.innerHTML = '';
-      data.forEach(st => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><img src="${st.photoUrl}" /></td>
-          <td>${st.rollNo}</td>
-          <td>${st.name}</td>
-          <td><button onclick='showMarks(${JSON.stringify(st.subjects)}, "${st.name}", "${st.rollNo}")'>View</button></td>`;
-        resultsBody.appendChild(tr);
+    [dropdownTrigger, dropdownMenu].forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        keepOpen = true;
+        parent.classList.add('show');
       });
-    }
+      el.addEventListener('mouseleave', () => {
+        keepOpen = false;
+        setTimeout(() => {
+          if (!keepOpen) parent.classList.remove('show');
+        }, 300);
+      });
+    });
 
-    function showMarks(subjects, name, roll) {
-      modalName.textContent = name;
-      modalRoll.textContent = roll;
-      modalMarks.innerHTML = subjects.map(s => `<p>${s.subject}: ${s.marks}</p>`).join('');
-      modal.style.display = 'flex';
-    }
-
-    function closeModal() {
-      modal.style.display = 'none';
-    }
-  </script>
+    document.addEventListener('click', (e) => {
+      if (!parent.contains(e.target)) {
+        parent.classList.remove('show');
+      }
+    });
+  });
+</script>
     </body>
 </html>
