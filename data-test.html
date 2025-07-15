@@ -8,42 +8,58 @@
         <link rel="icon" href="assets/img/logo.png" type="image/x-icon"/>
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="assets/css/main.css"/>
-        <style>
-    body { opacity: 0; transition: opacity 0.6s ease-in-out; }
-    body.loaded { opacity: 1; }
-    .student-photo { width: 60px; height: 60px; object-fit: cover; border-radius: 50%; }
-     .modal-subject-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #ddd; }
-     /* Custom dropdown style */
+        <style>body {
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+}
+
+body.loaded {
+    opacity: 1;
+}
+
+.student-photo {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.modal-subject-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Custom dropdown style */
 .custom-dropdown {
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-15px);
-  z-index: 1050;
-  display: block;
-  min-width: 250px;
-  max-width: 90vw;
-  padding: 0.5rem;
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  pointer-events: none;
-  white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-15px);
+    z-index: 1050;
+    display: block;
+    min-width: 250px;
+    max-width: 90vw;
+    padding: 0.5rem;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    white-space: normal;
 }
 
 .nav-item.dropdown:hover .custom-dropdown,
 .nav-item.dropdown.show .custom-dropdown,
 .custom-dropdown:hover {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: auto;
-}
-
-    </style>
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}</style>
     </head>
     <body>
         <!-- NAVBAR -->
