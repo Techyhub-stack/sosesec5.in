@@ -14,24 +14,60 @@
         <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg fixed-top bg-body clean-navbar">
-            <div class="container">
-                <a class="navbar-brand logo" href="index.html"><img src="assets/img/logo.png" height="60px"></a>
-                <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1">
-                    <span class="visually-hidden">Toggle navigation</span>
+        <nav class="navbar navbar-expand-lg navbar-light bg-body fixed-top shadow-sm clean-navbar transition">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand d-flex align-items-center" href="index.html">
+                    <img src="assets/img/logo.png" alt="Logo" height="70" class="me-2"/>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="align-content-center collapse d-flex justify-content-between navbar-collapse" id="navcol-1">
+                <div class="collapse navbar-collapse" id="mainNavbar">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a>
-                        </li>
-                        <li class="nav-item"><a class="link-dark nav-link" href="features.html">    What We Teach</a>
-                            <a href="#"><b></b></a>
-
-                        <li class="nav-item"><a class="link-dark nav-link" href="data-test.html">Academics</a>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="index.html">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="link-dark nav-link" href="Ourfaculty.html">OUR faculty</a>
+                            <a class="nav-link" href="features.html">What We Teach</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="data-test.html">Academics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Ourfaculty.html">Our Faculty</a>
+                        </li>
+                        <li class="nav-item dropdown position-relative">
+                            <a class="nav-link dropdown-toggle" href="#" id="moreDropdown">More</a>
+                            <ul class="dropdown-menu text-start custom-dropdown" aria-labelledby="moreDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="Houses.html">Houses</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="StudentCouncil.html">Committee</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="StudentCouncil.html">Student Council</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="contactus.html">Contact Us</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="blog-post.html">Blog</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="newsletter.html">Newsletter</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="features.html">Campus</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="gallery.html">Co-Curricular Activities</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="Codeofconduct.html">Code of Conduct</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
