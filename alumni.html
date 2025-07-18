@@ -1,16 +1,195 @@
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
-    <head>
-        <link rel="icon" href="assets/img/logo.png" type="image/x-icon">
-        <meta charset="utf-8">
-        <title>DBRA SOSE SEC-5 Dwarka</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-        <title>Features - Brand</title>
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="assets/css/Montserrat.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
-        <link rel="stylesheet" href="assets/css/baguetteBox.min.css">
-        <link rel="stylesheet" href="assets/css/Carousel-overlay-text.css">
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar (reuse theme) -->
+    <nav class="navbar navbar-expand-lg fixed-top bg-body clean-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">CM SHRI SEC -5</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="alumni.html">Alumni</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Ourfaculty.html">Faculty</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contactus.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page" style="margin-top: 80px;">
+        <section class="container py-5">
+            <h2 class="mb-4 text-center">Our Alumni</h2>
+            <div class="row mb-3">
+                <div class="col-md-6 mb-2">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search by name, batch, or profession...">
+                </div>
+                <div class="col-md-3 mb-2">
+                    <select id="batchFilter" class="form-select">
+                        <option value="">All Batches</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <select id="professionFilter" class="form-select">
+                        <option value="">All Professions</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Batch</th>
+                            <th>Profession</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alumniTableBody">
+                        <!-- Alumni rows will be rendered here -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="noResults" class="text-center text-muted mt-3" style="display:none;">No alumni found.</div>
+        </section>
+    </main>
+
+    <!-- Footer (reuse theme) -->
+    <footer class="page-footer dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <h5>Get started</h5>
+                    <ul></ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>About us</h5>
+                    <ul></ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="features.html">FAQ</a></li>
+                        <li><a href="contactus.html">Help desk</a></li>
+                        <li><a href="form1.html">Forums</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>Policies &amp; Regulations</h5>
+                    <ul>
+                        <li><a href="Codeofconduct.html">Terms of Service</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <p>© CM SHRI SEC -5&nbsp; Copyright&nbsp;</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+    // Alumni data array
+    const alumniData = [
+        { name: "Amit Sharma", batch: "2010", profession: "Software Engineer", location: "Bangalore" },
+        { name: "Priya Singh", batch: "2012", profession: "Doctor", location: "Delhi" },
+        { name: "Rahul Verma", batch: "2011", profession: "Entrepreneur", location: "Mumbai" },
+        { name: "Sneha Patel", batch: "2010", profession: "Architect", location: "Ahmedabad" },
+        { name: "Vikas Gupta", batch: "2013", profession: "Teacher", location: "Lucknow" },
+        { name: "Neha Jain", batch: "2012", profession: "Lawyer", location: "Chandigarh" },
+        { name: "Rohit Sinha", batch: "2011", profession: "Civil Engineer", location: "Kolkata" },
+        { name: "Anjali Mehra", batch: "2013", profession: "Artist", location: "Pune" },
+        { name: "Suresh Kumar", batch: "2010", profession: "Banker", location: "Jaipur" },
+        { name: "Meena Joshi", batch: "2011", profession: "Scientist", location: "Hyderabad" }
+    ];
+
+    // Populate filter dropdowns
+    function populateFilters() {
+        const batchSet = new Set();
+        const professionSet = new Set();
+        alumniData.forEach(a => {
+            batchSet.add(a.batch);
+            professionSet.add(a.profession);
+        });
+        const batchFilter = document.getElementById('batchFilter');
+        const professionFilter = document.getElementById('professionFilter');
+        batchSet.forEach(batch => {
+            const opt = document.createElement('option');
+            opt.value = batch;
+            opt.textContent = batch;
+            batchFilter.appendChild(opt);
+        });
+        professionSet.forEach(prof => {
+            const opt = document.createElement('option');
+            opt.value = prof;
+            opt.textContent = prof;
+            professionFilter.appendChild(opt);
+        });
+    }
+
+    // Render alumni table
+    function renderAlumniTable(data) {
+        const tbody = document.getElementById('alumniTableBody');
+        tbody.innerHTML = '';
+        if (data.length === 0) {
+            document.getElementById('noResults').style.display = '';
+            return;
+        } else {
+            document.getElementById('noResults').style.display = 'none';
+        }
+        data.forEach(alumnus => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${alumnus.name}</td>
+                <td>${alumnus.batch}</td>
+                <td>${alumnus.profession}</td>
+                <td>${alumnus.location}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Filter and search
+    function filterAlumni() {
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const batch = document.getElementById('batchFilter').value;
+        const profession = document.getElementById('professionFilter').value;
+        const filtered = alumniData.filter(a => {
+            const matchesSearch = a.name.toLowerCase().includes(search) || a.batch.includes(search) || a.profession.toLowerCase().includes(search) || a.location.toLowerCase().includes(search);
+            const matchesBatch = !batch || a.batch === batch;
+            const matchesProfession = !profession || a.profession === profession;
+            return matchesSearch && matchesBatch && matchesProfession;
+        });
+        renderAlumniTable(filtered);
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+        populateFilters();
+        renderAlumniTable(alumniData);
+        document.getElementById('searchInput').addEventListener('input', filterAlumni);
+        document.getElementById('batchFilter').addEventListener('change', filterAlumni);
+        document.getElementById('professionFilter').addEventListener('change', filterAlumni);
+    });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
         <link rel="stylesheet" href="assets/css/iframe-youtube-mloureiro1973.css">
         <link rel="stylesheet" href="assets/css/main.css">
         <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
