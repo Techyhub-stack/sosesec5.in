@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
     <head>
-        <meta charset="utf-8">
-        <link rel="icon" href="assets/img/logo.png" type="image/x-icon">
+        <meta charset="utf-8"/>
+        <link rel="icon" href="assets/img/logo.png" type="image/x-icon"/>
         <title>DBRA SOSE SEC-5 Dwarka</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="assets/css/Montserrat.css">
-        <link rel="stylesheet" href="assets/css/baguetteBox.min.css">
-        <link rel="stylesheet" href="assets/css/Carousel-overlay-text.css">
-        <link rel="stylesheet" href="assets/css/iframe-youtube-mloureiro1973.css">
-        <link rel="stylesheet" href="assets/css/main.css">
-        <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="assets/css/Montserrat.css"/>
+        <link rel="stylesheet" href="assets/css/baguetteBox.min.css"/>
+        <link rel="stylesheet" href="assets/css/Carousel-overlay-text.css"/>
+        <link rel="stylesheet" href="assets/css/iframe-youtube-mloureiro1973.css"/>
+        <link rel="stylesheet" href="assets/css/main.css"/>
+        <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css"/>
         <style>body {
     opacity: 0;
     transition: opacity 0.6s ease-in-out;
@@ -19,6 +19,11 @@
 
 body.loaded {
     opacity: 1;
+}
+
+.card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s ease-in-out;
 }
 
 #carousel-2 {
@@ -47,51 +52,52 @@ body.loaded {
     width: 100%;
     height: 500px;
     object-fit: cover;
+}
 
-    .dropdown-menu {
-        opacity: 0;
-        visibility: hidden;
-        transform: translateX(-50%) translateY(-20px);
-        transition: opacity 0.4s ease, transform 0.4s ease;
-        background-color: #fff;
-        border-radius: 1rem;
-        box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.1);
-        border: none;
-        padding: 0.5rem;
-        min-width: 250px;
-        word-wrap: break-word;
-        white-space: normal;
-        position: fixed !important;
-        left: 50% !important;
-        top: 80px;
-        z-index: 1050;
-        display: block;
-        pointer-events: none;
-    }
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 0.5rem;
+    min-width: 250px;
+    word-wrap: break-word;
+    white-space: normal;
+    position: fixed !important;
+    left: 50% !important;
+    top: 80px;
+    z-index: 1050;
+    display: block;
+    pointer-events: none;
+}
 
-    .nav-item.dropdown:hover .dropdown-menu,
-    .dropdown-menu:hover {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(-50%) translateY(0);
-        pointer-events: auto;
-    }
+.nav-item.dropdown:hover .dropdown-menu,
+.dropdown-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
 
-    #page{
-        min-height: 100vh;
-    }
+#page {
+    min-height: 100vh;
 }</style>
     </head>
     <body>
         <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add("loaded");
-        });
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.classList.add("loaded");
+      });
     </script>
+        <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-body fixed-top shadow-sm clean-navbar transition">
             <div class="container-fluid px-4">
                 <a class="navbar-brand d-flex align-items-center" href="index.html">
-                    <img src="assets/img/logo.png" alt="Logo" height="70" class="me-2" />
+                    <img src="assets/img/logo.png" alt="Logo" height="70" class="me-2"/>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -113,25 +119,108 @@ body.loaded {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">More</a>
                             <ul class="dropdown-menu text-start" aria-labelledby="moreDropdown">
-                                <li><a class="dropdown-item" href="#">Portal</a></li>
-                                <li><a class="dropdown-item" href="#">Committee</a></li>
-                                <li><a class="dropdown-item" href="#">Student Council</a></li>
-                                <li><a class="dropdown-item" href="#">Contact Us</a></li>
-                                <li><a class="dropdown-item" href="#">Blog</a></li>
-                                <li><a class="dropdown-item" href="#">Newsletter</a></li>
-                                <li><a class="dropdown-item" href="#">Campus</a></li>
-                                <li><a class="dropdown-item" href="#">Co-Curricular Activities</a></li>
-                                <li><a class="dropdown-item" href="#">Code of Conduct</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Portal</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Committee</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Student Council</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Contact Us</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Blog</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Newsletter</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Campus</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Co-Curricular Activities</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Code of Conduct</a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <!-- Main content -->
         <main class="page" style="min-height: 100vh;">
-            
+            <!-- Student Council Section -->
+            <section class="py-5 bg-light" id="student-council">
+                <div class="container">
+                    <h2 class="text-center mb-5 fw-bold">Student Council Members</h2>
+                    <div class="row g-4 justify-content-center container-fluid">
+                        <!-- Card 1 -->
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <div class="card shadow-sm border-0 h-100">
+                                <img src="assets/img/student1.jpg" class="card-img-top rounded-top" alt="Head Girl"/>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">-----</h5>
+                                    <p class="text-muted mb-1">Class ------ </p>
+                                    <p class="text-primary fw-semibold">Head Girl</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <div class="card shadow-sm border-0 h-100">
+                                <img src="assets/img/student2.jpg" class="card-img-top rounded-top" alt="Head Boy"/>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">------</h5>
+                                    <p class="text-muted mb-1">Class ------</p>
+                                    <p class="text-primary fw-semibold">Head Boy</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Add more cards below -->
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <div class="card shadow-sm border-0 h-100">
+                                <img src="assets/img/student2.jpg" class="card-img-top rounded-top" alt="Photo"/>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">------</h5>
+                                    <p class="text-muted mb-1">Class ------</p>
+                                    <p class="text-primary fw-semibold">Member</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <div class="card shadow-sm border-0 h-100">
+                                <img src="assets/img/student2.jpg" class="card-img-top rounded-top" alt="Photo"/>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">------</h5>
+                                    <p class="text-muted mb-1">Class ------</p>
+                                    <p class="text-primary fw-semibold">Memeber</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <div class="card shadow-sm border-0 h-100">
+                                <img src="assets/img/student2.jpg" class="card-img-top rounded-top" alt="Photo"/>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">------</h5>
+                                    <p class="text-muted mb-1">Class ------</p>
+                                    <p class="text-primary fw-semibold">Member</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
+<<<<<<< Updated upstream
         <!-- FOOTER -->
+=======
+        <!-- Footer -->
+>>>>>>> Stashed changes
         <footer class="dark page-footer">
             <div class="container">
                 <div class="row">
