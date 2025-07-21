@@ -85,64 +85,135 @@ body.loaded {
       document.body.classList.add("loaded");
     });
   </script>
-        <nav class="navbar navbar-expand-lg navbar-light bg-body fixed-top shadow-sm clean-navbar transition">
-            <div class="container-fluid px-4">
-                <a class="navbar-brand d-flex align-items-center" href="index.html">
-                    <img src="assets/img/logo.png" alt="Logo" height="70" class="me-2"/>
+    <nav class="navbar navbar-expand-lg navbar-light bg-body fixed-top shadow-sm clean-navbar transition">
+        <div class="container-fluid px-4">
+
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="assets/img/logo.png" alt="Logo" height="70" class="me-2"/>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="features.html">What We Teach</a></li>
+                <li class="nav-item"><a class="nav-link" href="Login.html">Academics</a></li>
+                <li class="nav-item"><a class="nav-link" href="Ourfaculty.html">Our Faculty</a></li>
+
+                <!-- ✅ DROPDOWN -->
+                <li class="nav-item dropdown position-relative">
+                <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    More
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="mainNavbar">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="features.html">What We Teach</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Login.html">Academics</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Ourfaculty.html">Our Faculty</a>
-                        </li>
-                        <li class="nav-item dropdown position-relative">
-                            <a class="nav-link dropdown-toggle" href="#" id="moreDropdown">More</a>
-                            <ul class="dropdown-menu text-start custom-dropdown" aria-labelledby="moreDropdown">
-                                <li>
-                                    <a class="dropdown-item" href="Houses.html">Houses</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="StudentCouncil.html">Committee</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="StudentCouncil.html">Student Council</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="contactus.html">Contact Us</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="blog-post.html">Blog</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="newsletter.html">Newsletter</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="features.html">Campus</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="gallery.html">Co-Curricular Activities</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="Codeofconduct.html">Code of Conduct</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+
+                <!-- ✅ FIXED DROPDOWN MENU -->
+                <ul class="dropdown-menu text-start custom-dropdown" aria-labelledby="moreDropdown">
+                    <li><a class="dropdown-item" href="Houses.html">Houses</a></li>
+                    <li><a class="dropdown-item" href="StudentCouncil.html">Committee</a></li>
+                    <li><a class="dropdown-item" href="StudentCouncil.html">Student Council</a></li>
+                    <li><a class="dropdown-item" href="contactus.html">Contact Us</a></li>
+                    <li><a class="dropdown-item" href="blog-post.html">Blog</a></li>
+                    <li><a class="dropdown-item" href="newsletter.html">Newsletter</a></li>
+                    <li><a class="dropdown-item" href="features.html">Campus</a></li>
+                    <li><a class="dropdown-item" href="gallery.html">Co-Curricular Activities</a></li>
+                    <li><a class="dropdown-item" href="Codeofconduct.html">Code of Conduct</a></li>
+                </ul>
+                </li>
+            </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
+
+        <!-- ✅ FIXED DROPDOWN CSS -->
+        <style>
+        /* Smooth dropdown */
+        .custom-dropdown {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            position: absolute;
+            top: 100%;
+            left: 0; /* Align to parent left edge */
+            right: auto;
+            z-index: 1050;
+            display: block;
+            min-width: 250px;
+            max-width: calc(100vw - 20px); /* prevent overflow */
+            padding: 0.5rem;
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            pointer-events: none;
+            white-space: normal;
+        }
+
+        /* Show dropdown when active */
+        .nav-item.dropdown:hover .custom-dropdown,
+        .nav-item.dropdown.show .custom-dropdown,
+        .custom-dropdown:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Mobile-friendly full width dropdown */
+        @media (max-width: 768px) {
+            .custom-dropdown {
+            position: static;
+            transform: none;
+            width: 100%;
+            max-width: 100%;
+            box-shadow: none;
+            border-radius: 0;
+            }
+        }
+        </style>
+
+        <!-- ✅ DROPDOWN JS TO HANDLE CLICK + HOVER -->
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdownTrigger = document.getElementById('moreDropdown');
+            const parent = dropdownTrigger.closest('.dropdown');
+            const dropdownMenu = parent.querySelector('.custom-dropdown');
+
+            let keepOpen = false;
+
+            // Toggle on click
+            dropdownTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            parent.classList.toggle('show');
+            });
+
+            // Hover behavior for desktop
+            [dropdownTrigger, dropdownMenu].forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                keepOpen = true;
+                parent.classList.add('show');
+            });
+            el.addEventListener('mouseleave', () => {
+                keepOpen = false;
+                setTimeout(() => {
+                if (!keepOpen) parent.classList.remove('show');
+                }, 300);
+            });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+            if (!parent.contains(e.target)) {
+                parent.classList.remove('show');
+            }
+            });
+        });
+        </script>
+
         <!-- MAIN CAROUSEL -->
         <main class="page">
             <div class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" id="carousel-2">
